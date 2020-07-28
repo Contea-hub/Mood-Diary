@@ -4,12 +4,8 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -17,7 +13,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.dialog_happy.*
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -42,7 +37,7 @@ class DialogAddFragment(context: Context) : Dialog(context) {
 
         db=Firebase.database.reference
         var uid = user?.uid.toString()
-        readID(uid)
+
 
 
         dhBtnH1.setOnClickListener{
@@ -72,47 +67,20 @@ class DialogAddFragment(context: Context) : Dialog(context) {
         }
     }
 
-    fun onWriteDBPost() {
+    private fun onWriteDBPost() {
         db = Firebase.database.reference
         var user = FirebaseAuth.getInstance().currentUser
         level = dhEdHl.text.toString()
         diary = dhEdDiary.text.toString()
-        //val myRef = database.getReference("posts")
+
         val myRef = database.getReference(user?.uid.toString())
+        val key = myRef.push().key
 
         val postValues: HashMap<String, Any> = HashMap()
-        postValues["date"] = formatted
         postValues["level"] = level
         postValues["diary"] = diary
-        /* id = readID()
-         postValues["id"] = ++id*/
-        myRef.setValue(postValues)
+
+        myRef.child(formatted).child(key!!).setValue(postValues)
     }
-
-    fun readID(uid:String): String {
-        db = Firebase.database.reference
-        var Did: String="1"
-        db.child(uid).child("20200727").runTransaction(object : Transaction.Handler {
-            override fun doTransaction(mutableData: MutableData): Transaction.Result {
-                if((mutableData.child("Did").value as? Long)!=null){
-                    Did= mutableData.child("Did").value as String
-                }else{
-                    Did="1"
-                }
-
-                return Transaction.success(mutableData);
-            }
-
-            override fun onComplete(
-                databaseError: DatabaseError?,
-                committed: Boolean,
-                currentData: DataSnapshot?
-            ) {
-                //Toast.makeText(applicationContext,"Transaction:onComplete:$databaseError",Toast.LENGTH_LONG).show()
-            }
-        })
-        return Did
-    }
-
 
 }
