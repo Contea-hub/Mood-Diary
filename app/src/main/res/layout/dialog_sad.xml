@@ -7,40 +7,9 @@
     android:layout_height="wrap_content">
 
 
-    <ImageButton
-        android:id="@+id/dhBtnH1"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/ic_launcher_background"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="TODO" />
-
-    <ImageButton
-        android:id="@+id/dhBtnH2"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintStart_toEndOf="@+id/dhBtnH1"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_launcher_background" />
-
-    <ImageButton
-        android:id="@+id/dhBtnH3"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintStart_toEndOf="@+id/dhBtnH2"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_launcher_background" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <HorizontalScrollView
+        android:id="@+id/horiscrollview"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -96,9 +65,9 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="행복지수"
             android:layout_marginLeft="25sp"
+            android:layout_marginTop="25dp"
+            android:text="힘듦지수"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

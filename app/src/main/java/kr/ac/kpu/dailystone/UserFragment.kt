@@ -29,10 +29,6 @@ class UserFragment : Fragment() {
             startActivity(intent)
         }
 
-        userBtnUpdate.setOnClickListener {
-
-        }
-
         userBtnReset.setOnClickListener {
 
         }

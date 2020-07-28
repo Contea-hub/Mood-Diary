@@ -18,24 +18,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/userBtnUpdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="정보수정"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userBtninfo" />
-
-    <Button
         android:id="@+id/userBtnReset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="초기화"
+        app:layout_constraintTop_toBottomOf="@id/userBtninfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userBtnUpdate" />
+        tools:layout_editor_absoluteY="196dp" />
 
     <Button
         android:id="@+id/userBtnLogout"
