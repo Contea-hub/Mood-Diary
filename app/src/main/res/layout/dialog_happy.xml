@@ -56,6 +56,8 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="40dp"
                 android:adjustViewBounds="true"
+                android:padding="0sp"
+                android:scaleType="centerCrop"
                 android:maxWidth="85dp"
                 android:maxHeight="85dp"
                 android:src="@drawable/ic_launcher_background" />
@@ -67,6 +69,8 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="40dp"
                 android:adjustViewBounds="true"
+                android:padding="0sp"
+                android:scaleType="centerCrop"
                 android:maxWidth="85dp"
                 android:maxHeight="85dp"
                 android:src="@drawable/ic_launcher_background" />
@@ -78,6 +82,8 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="40dp"
                 android:adjustViewBounds="true"
+                android:padding="0sp"
+                android:scaleType="centerCrop"
                 android:maxWidth="85dp"
                 android:maxHeight="85dp"
                 android:src="@drawable/ic_launcher_background" />
@@ -96,18 +102,31 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="행복지수"
             android:layout_marginLeft="25sp"
+            android:layout_marginTop="15dp"
+            android:text="행복지수"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dhSbar" />
+
+        <SeekBar
+            android:id="@+id/dhSbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:max="100"
+            android:progress="50"
+            app:layout_constraintEnd_toEndOf="@+id/dhEdDiary"
+            app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent" />
+
 
         <EditText
             android:id="@+id/dhEdHl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
             android:ems="5"
             android:gravity="center"
@@ -115,20 +134,21 @@
 
             android:inputType="textPersonName"
             app:layout_constraintStart_toEndOf="@+id/textView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/dhSbar" />
 
         <ImageButton
             android:id="@+id/dhBtnDice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="35dp"
             android:adjustViewBounds="true"
             android:maxWidth="45dp"
             android:maxHeight="45dp"
+            android:padding="0sp"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_background"
             app:layout_constraintStart_toEndOf="@+id/dhEdHl"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/dhSbar" />
 
         <EditText
             android:id="@+id/dhEdDiary"
