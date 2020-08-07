@@ -72,7 +72,7 @@ class UserInfoActivity : AppCompatActivity() {
                 Log.d("Min: plz", "jaebal: plz")
                 val intent = Intent(this,ChangeActivity::class.java)
                 startActivity(intent)
-
+                finish()
             }
 
             /*btnSavePw.setOnClickListener {
