@@ -26,24 +26,30 @@ import kotlin.collections.HashMap
 
 
 @RequiresApi(Build.VERSION_CODES.O)
-class DialogAddFragment(context: Context) : Dialog(context) {
+class DialogAddFragment(context: Context,date:String) : Dialog(context) {
     private var mAuth: FirebaseAuth? = null
     val database : FirebaseDatabase = FirebaseDatabase.getInstance()
     private lateinit var db: DatabaseReference
     private lateinit var level : Any
     private lateinit var diary : Any
     var cnt:Any = 0
+
     private val current: LocalDate = LocalDate.now()
-    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd")
-    private val formatted: String = current.format(formatter)
-    var date = formatted.substring(2,8)
-    private val formatterYear: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy")
-    private val yearformatted: String = current.format(formatterYear)
-    var year = yearformatted.substring(2,4)
-    private val formatterMonth : DateTimeFormatter = DateTimeFormatter.ofPattern("MM")
-    private val monthformatted: String = current.format(formatterMonth)
-    private val formatterDay : DateTimeFormatter = DateTimeFormatter.ofPattern("dd")
-    private val dayformatted: String = current.format(formatterDay)
+    private var formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd")
+    private var formatted: String = current.format(formatter)
+    var date = date
+    //var date = formatted.substring(2,8)
+    var year = formatted.substring(2,4)
+    var monthformatted = formatted.substring(4,6)
+    var dayformatted: String = formatted.substring(6,8)
+    //private val formatterYear: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy")
+    //private val yearformatted: String = current.format(formatterYear)
+    //private val yearformatted: String = current.format(formatter)
+    //private val formatterMonth : DateTimeFormatter = DateTimeFormatter.ofPattern("MM")
+    //private val monthformatted: String = current.format(formatterMonth)
+    //private val monthformatted: String = current.format(formatter)
+    //private val formatterDay : DateTimeFormatter = DateTimeFormatter.ofPattern("dd")
+    //private val dayformatted: String = current.format(formatterDay)
     var user: FirebaseUser?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +62,11 @@ class DialogAddFragment(context: Context) : Dialog(context) {
         db=Firebase.database.reference
         var uid = user?.uid.toString()
         //readID(uid)
+        //date 받아오기
+        year = date.substring(0,2)
+        monthformatted = date.substring(2,4)
+        dayformatted = date.substring(4,6)
+        Toast.makeText(context, "date $date", Toast.LENGTH_SHORT).show()
 
 
         dhBtnH1.setOnClickListener{
@@ -78,13 +89,12 @@ class DialogAddFragment(context: Context) : Dialog(context) {
             var num = rnd.nextInt(100)
             dhEdHl.setText(num.toString())
             level = dhEdHl.text.toString()
-
         }
 
         dhSbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                    dhEdHl.setText(progress.toString());
-                    level = dhEdHl.text.toString()
+                dhEdHl.setText(progress.toString());
+                level = dhEdHl.text.toString()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) { }
             override fun onStopTrackingTouch(seekBar: SeekBar?) { }
@@ -110,15 +120,15 @@ class DialogAddFragment(context: Context) : Dialog(context) {
                     return
                 }
                 dhEdHl.setSelection(dhEdHl.length())
-                    /*if (str != null) {
+                /*if (str != null) {
 
-                        dhSbar.progress = i
-                    }
-                    if(str == null){
-                        str = 0.toString()
-                        i = str.toInt()
-                        dhSbar.progress = i
-                    }*/
+                    dhSbar.progress = i
+                }
+                if(str == null){
+                    str = 0.toString()
+                    i = str.toInt()
+                    dhSbar.progress = i
+                }*/
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -142,7 +152,6 @@ class DialogAddFragment(context: Context) : Dialog(context) {
     }
 
     fun onWriteDBPost() {
-        Log.d("daytest","dialog 저장 시작")
         db = Firebase.database.reference
         var user = FirebaseAuth.getInstance().currentUser
 
@@ -153,61 +162,33 @@ class DialogAddFragment(context: Context) : Dialog(context) {
         val postValues: HashMap<String, Any> = HashMap()
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.child("count").child(date).child("count").value==null){
-                    cnt=0
-                }else{
+                if (snapshot.child("count").child(date).child("count").value == null) {
+                    cnt = 0
+                } else {
                     cnt = snapshot.child("count").child(date).child("count").value!!
                 }
 
-                val myRefDiary = db.child(user!!.uid).child("diary").child(year).child(monthformatted).child(dayformatted)
-                    .child((cnt.toString().toInt()+1).toString())
+                val myRefDiary =
+                    db.child(user!!.uid).child("diary").child(year).child(monthformatted)
+                        .child(dayformatted)
+                        .child((cnt.toString().toInt() + 1).toString())
                 postValues["level"] = level
                 postValues["diary"] = diary
                 myRefDiary.setValue(postValues)
-                Log.d("dialog ", "cnt: $cnt")
 
                 val myRefCount = db.child(user!!.uid).child("count").child(date).child("count")
                 myRefCount.setValue(cnt.toString().toInt() + 1)
 
             }
+
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
 
         }
         db.child(user!!.uid).addListenerForSingleValueEvent(postListener)
-
-
-
-        Toast.makeText(context,"저장 완료",Toast.LENGTH_SHORT)
-        Log.d("daytest","dialog 저장 끝")
+        Toast.makeText(context, "저장 완료", Toast.LENGTH_SHORT)
     }
-    /*
-    fun readID(uid:String): String {
-        db = Firebase.database.reference
-        var Did: String="1"
-        db.child(uid).child(formatterYear.toString()).child(formatterMonth.toString()).runTransaction(object : Transaction.Handler {
-            override fun doTransaction(mutableData: MutableData): Transaction.Result {
-                if((mutableData.child("Did").value as? Long)!=null){
-                    Did= mutableData.child("Did").value as String
-                }else{
-                    Did="1"
-                }
-
-                return Transaction.success(mutableData);
-            }
-
-            override fun onComplete(
-                databaseError: DatabaseError?,
-                committed: Boolean,
-                currentData: DataSnapshot?
-            ) {
-                //Toast.makeText(applicationContext,"Transaction:onComplete:$databaseError",Toast.LENGTH_LONG).show()
-            }
-        })
-        return Did
-    }
-*/
 
 
 }

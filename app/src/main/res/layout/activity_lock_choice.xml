@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/btnLock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2차 비밀번호 설정"
+        android:layout_marginTop="20dp"
+
+        />
+
+    <Button
+        android:id="@+id/btnDisable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2차 비밀번호 설정 삭제"
+      />
+    <Button
+        android:id="@+id/btnPassChange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2차 비밀번호 변경"
+        />
+   <!-- <Button
+        android:id="@+id/btnUnlock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2차 비밀번호 설정 삭제"
+     /> -->
+
+</LinearLayout>

@@ -27,6 +27,15 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="196dp" />
+    <Button
+        android:id="@+id/btnLockSet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2차 비밀번호"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userBtnReset" />
 
     <Button
         android:id="@+id/userBtnLogout"
@@ -36,6 +45,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userBtnReset" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLockSet" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

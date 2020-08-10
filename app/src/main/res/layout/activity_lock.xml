@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etInputInfo"
+        android:text="비밀번호 입력"/>
+    <LinearLayout
+        android:id="@+id/ll_passcodes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etPasscode1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:textSize="40sp"
+            android:inputType="textPassword|number"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            tools:ignore="Suspicious0dp">
+            <requestFocus/>
+        </EditText>
+
+        <EditText
+            android:id="@+id/etPasscode2"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:textSize="40sp"
+            android:inputType="textPassword|number"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            tools:ignore="Suspicious0dp">
+
+        </EditText>
+        <EditText
+            android:id="@+id/etPasscode3"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:textSize="40sp"
+            android:inputType="textPassword|number"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            tools:ignore="Suspicious0dp">
+
+        </EditText>
+        <EditText
+            android:id="@+id/etPasscode4"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:textSize="40sp"
+            android:inputType="textPassword|number"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            tools:ignore="Suspicious0dp">
+
+        </EditText>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical">
+        <TableLayout
+            android:id="@+id/tl_keys"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:shrinkColumns="*"
+            android:stretchColumns="*">
+
+            <TableRow>
+
+                <Button
+                    android:id="@+id/btn01"
+                    android:text="1"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"/>
+
+                <Button
+                    android:id="@+id/btn02"
+                    android:text="2"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"/>
+
+                <Button
+                    android:id="@+id/btn03"
+                    android:text="3"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"/>
+
+            </TableRow>
+
+            <TableRow>
+
+                <Button
+                    android:id="@+id/btn04"
+                    android:text="4"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"/>
+
+                <Button
+                    android:id="@+id/btn05"
+                    android:text="5"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"/>
+
+                <Button
+                    android:id="@+id/btn06"
+                    android:text="6"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"/>
+            </TableRow>
+
+            <TableRow>
+
+                <Button
+                    android:id="@+id/btn07"
+                    android:text="7"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"/>
+
+                <Button
+                    android:id="@+id/btn08"
+                    android:text="8"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"/>
+
+                <Button
+                    android:id="@+id/btn09"
+                    android:text="9"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"/>
+            </TableRow>
+
+            <TableRow>
+
+                <Button
+                    android:id="@+id/btnClear"
+                    android:text="Clear"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"/>
+                <Button
+                    android:id="@+id/btn00"
+                    android:text="0"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"/>
+                <Button
+                    android:id="@+id/btnErase"
+                    android:text="Del"
+                    />
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

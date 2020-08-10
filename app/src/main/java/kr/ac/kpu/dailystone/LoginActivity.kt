@@ -32,6 +32,13 @@ class LoginActivity : AppCompatActivity() {
         })
         // Initialize Firebase Auth
         auth = Firebase.auth
+        if (auth.currentUser != null) {
+            // User is signed in (getCurrentUser() will be null if not signed in)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         btnLogin.setOnClickListener {
             if(etIdInput.text.toString() == "" || etPassInput.text.toString() == ""){
                 Toast.makeText(this, "아이디와 비밀번호를 확인하세요.", Toast.LENGTH_SHORT).show()

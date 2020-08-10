@@ -23,7 +23,6 @@ class UserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mAuth = FirebaseAuth.getInstance()
-
         userBtninfo.setOnClickListener {
             val intent = Intent(context, UserInfoActivity::class.java)
             startActivity(intent)
@@ -36,6 +35,12 @@ class UserFragment : Fragment() {
         userBtnLogout.setOnClickListener {      //클릭 시 로그아웃
             signOut()
         }
+
+        btnLockSet.setOnClickListener {
+            val intent = Intent(context, LockActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onCreateView(
