@@ -40,10 +40,6 @@ class MainActivity : AppCompatActivity() {
         adapter.addFragment(UserFragment())*/
 
     }
-    override fun onStart() {
-        super.onStart()
-
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

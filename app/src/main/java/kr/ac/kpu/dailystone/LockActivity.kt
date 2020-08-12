@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_lock_choice.*
+import kotlinx.android.synthetic.main.activity_user_info.*
 
 class LockActivity : AppCompatActivity() {
 
@@ -40,12 +41,18 @@ class LockActivity : AppCompatActivity() {
             }
             startActivityForResult(intent, AppLockConst.CHANGE_PASSWORD)
         }
+
+        btnBackLock.setOnClickListener {
+            finish()
+        }
     }
+
 
     override fun onStop() {
         super.onStop()
 
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -77,22 +84,22 @@ class LockActivity : AppCompatActivity() {
         }
     }
 
-   /* override fun onStart() {
-        super.onStart()
-        if (lock && AppLock(this).isPassLockSet()) {
-            val intent = Intent(this, AppPasswordActivity::class.java).apply {
-                putExtra(AppLockConst.type, AppLockConst.UNLOCK_PASSWORD)
-            }
-            startActivityForResult(intent, AppLockConst.UNLOCK_PASSWORD)
-        }
-    }*/
+    /* override fun onStart() {
+         super.onStart()
+         if (lock && AppLock(this).isPassLockSet()) {
+             val intent = Intent(this, AppPasswordActivity::class.java).apply {
+                 putExtra(AppLockConst.type, AppLockConst.UNLOCK_PASSWORD)
+             }
+             startActivityForResult(intent, AppLockConst.UNLOCK_PASSWORD)
+         }
+     }*/
 
-  /*  override fun onPause() {
-        super.onPause()
-        if (AppLock(this).isPassLockSet()) {
-            lock = true
-        }
-    }*/
+    /*  override fun onPause() {
+          super.onPause()
+          if (AppLock(this).isPassLockSet()) {
+              lock = true
+          }
+      }*/
 
     private fun init() = if (AppLock(this).isPassLockSet()) {
         btnLock.isEnabled = false

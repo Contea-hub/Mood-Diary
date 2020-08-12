@@ -10,24 +10,32 @@
 
     <FrameLayout
         android:id="@+id/LinearDraw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="340dp"
+        android:layout_height="340dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         >
         <ImageView
             android:id="@+id/ddIvbackground"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/colorremove"
+            android:layout_width="340dp"
+            android:layout_height="340dp"
+            android:src="@drawable/colorback"
+            android:background="#ffffff"/>
+
+        <ImageView
+            android:id="@+id/ddIvfront"
+            android:layout_width="340dp"
+            android:layout_height="340dp"
+            android:src="@drawable/colorfront"
             android:background="#ffffff"/>
 
         <ImageView
             android:id="@+id/ddIvicon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/dialogicon"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/basic_level" />
+
 
     </FrameLayout>
 
@@ -78,7 +86,7 @@
             android:maxHeight="45dp"
             android:padding="0sp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/dice"
             app:layout_constraintStart_toEndOf="@+id/ddEdHl"
             app:layout_constraintTop_toTopOf="parent" />
 
