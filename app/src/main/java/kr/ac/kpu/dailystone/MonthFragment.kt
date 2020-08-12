@@ -1,21 +1,14 @@
 package kr.ac.kpu.dailystone
 
-import android.app.ActionBar
-import android.app.Activity
 import android.content.res.Resources
-import android.hardware.display.DisplayManager
-import android.media.Image
 import android.os.Build
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Display
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -37,10 +30,10 @@ class MonthFragment : Fragment() {
     private val formatted: String = current.format(formatter)
     var date = formatted.substring(2,8)
     private val formatterYear: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy")
-    private val yearformatted: String = current.format(formatterYear)
+    private var yearformatted: String = current.format(formatterYear)
     var year = yearformatted.substring(2,4)
-    private val formatterMonth : DateTimeFormatter = DateTimeFormatter.ofPattern("MM")
-    private val monthformatted: String = current.format(formatterMonth)
+    private var formatterMonth : DateTimeFormatter = DateTimeFormatter.ofPattern("MM")
+    private var monthformatted: String = current.format(formatterMonth)
     private val formatterDay : DateTimeFormatter = DateTimeFormatter.ofPattern("dd")
     private val dayformatted: String = current.format(formatterDay)
 
@@ -54,12 +47,15 @@ class MonthFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         database = Firebase.database.reference
-        var uid = mAuth?.uid
+        var yearDisplay = yearformatted + "년"
+        tvOutputYear.text = yearDisplay
+
         var monthDisplay = monthformatted + "월"
         tvOutputMonth.text = monthDisplay
     }
@@ -73,8 +69,7 @@ class MonthFragment : Fragment() {
         var uid = mAuth?.uid
         val rootView = inflater.inflate(R.layout.fragment_month, container, false)
 
-        Log.d("HAN", "uid check : $uid")
-        //for(i in 1..31) {
+
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 rootView.monthGrid.removeAllViews()
@@ -90,7 +85,11 @@ class MonthFragment : Fragment() {
                             val params = LinearLayout.LayoutParams(devicewidth, devicewidth)
                             iv.layoutParams = params
                             iv.setOnClickListener {
-                                Toast.makeText(context, "clicked $i", Toast.LENGTH_SHORT).show()
+                                val mDialog
+                                        = MonthDetailFragment.newInstance(yearformatted, monthformatted,
+                                    "0$i"
+                                )
+                                fragmentManager?.let { it1 -> mDialog.show(it1,MonthDetailFragment.TAG) }
                             }
                             gv.addView(iv)
                         }
@@ -104,26 +103,55 @@ class MonthFragment : Fragment() {
                             val params = LinearLayout.LayoutParams(devicewidth, devicewidth)
                             iv.layoutParams = params
                             iv.setOnClickListener {
-                                Toast.makeText(context, "clicked $i", Toast.LENGTH_SHORT).show()
+                                val mDialog
+                                        = MonthDetailFragment.newInstance(yearformatted, monthformatted, "$i")
+                                fragmentManager?.let { it1 -> mDialog.show(it1,MonthDetailFragment.TAG) }
+
                             }
                             gv.addView(iv)
                         }
                     }
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
         }
-        database.child(uid!!).child("diary").child(year).child(monthformatted)
+        database.child(uid!!).child("diary").child(yearformatted.substring(2,4)).child(monthformatted)
             .addValueEventListener(postListener)
-        //}
         return rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        //val monthPreviousBtn : ImageButton = requireView().findViewById<ImageButton>(R.id.monthPreviousButton) as ImageButton
+        monthPreviousButton.setOnClickListener {
+            if(monthformatted == "01"){
+                monthformatted ="12"
+                yearformatted = (yearformatted.toInt() - 1).toString()
+            }else if(monthformatted.toInt() in 1..10) {
+                monthformatted = "0" + (monthformatted.toInt() - 1).toString()
+            }else{
+                monthformatted = (monthformatted.toInt() - 1).toString()
+            }
+            var ft : FragmentTransaction? = fragmentManager?.beginTransaction()
+            ft?.detach(this)?.attach(this)?.commit()
+            Log.d("HAN", "month : $monthformatted")
+        }
+        //val monthNextBtn : ImageButton = requireView().findViewById<ImageButton>(R.id.monthNextButton) as ImageButton
+        monthNextButton.setOnClickListener {
+            if(monthformatted == "12"){
+                monthformatted = "01"
+                yearformatted = (yearformatted.toInt() + 1).toString()
+            }else if(monthformatted.toInt() in 1..8) {
+                monthformatted = "0" + (monthformatted.toInt() + 1).toString()
+            }else{
+                monthformatted = (monthformatted.toInt() + 1).toString()
+            }
+            var ft : FragmentTransaction? = fragmentManager?.beginTransaction()
+            ft?.detach(this)?.attach(this)?.commit()
+            Log.d("HAN", "month : $monthformatted")
+        }
     }
 }
 

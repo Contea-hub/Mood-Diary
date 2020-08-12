@@ -152,7 +152,6 @@ class DialogAddFragment(context: Context,date:String) : Dialog(context) {
     }
 
     fun onWriteDBPost() {
-        Log.d("daytest","dialog 저장 시작")
         db = Firebase.database.reference
         var user = FirebaseAuth.getInstance().currentUser
 
@@ -163,61 +162,33 @@ class DialogAddFragment(context: Context,date:String) : Dialog(context) {
         val postValues: HashMap<String, Any> = HashMap()
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.child("count").child(date).child("count").value==null){
-                    cnt=0
-                }else{
+                if (snapshot.child("count").child(date).child("count").value == null) {
+                    cnt = 0
+                } else {
                     cnt = snapshot.child("count").child(date).child("count").value!!
                 }
 
-                val myRefDiary = db.child(user!!.uid).child("diary").child(year).child(monthformatted).child(dayformatted)
-                    .child((cnt.toString().toInt()+1).toString())
+                val myRefDiary =
+                    db.child(user!!.uid).child("diary").child(year).child(monthformatted)
+                        .child(dayformatted)
+                        .child((cnt.toString().toInt() + 1).toString())
                 postValues["level"] = level
                 postValues["diary"] = diary
                 myRefDiary.setValue(postValues)
-                Log.d("dialog ", "cnt: $cnt")
 
                 val myRefCount = db.child(user!!.uid).child("count").child(date).child("count")
                 myRefCount.setValue(cnt.toString().toInt() + 1)
 
             }
+
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
 
         }
         db.child(user!!.uid).addListenerForSingleValueEvent(postListener)
-
-
-
-        Toast.makeText(context,"저장 완료",Toast.LENGTH_SHORT)
-        Log.d("daytest","dialog 저장 끝")
+        Toast.makeText(context, "저장 완료", Toast.LENGTH_SHORT)
     }
-    /*
-    fun readID(uid:String): String {
-        db = Firebase.database.reference
-        var Did: String="1"
-        db.child(uid).child(formatterYear.toString()).child(formatterMonth.toString()).runTransaction(object : Transaction.Handler {
-            override fun doTransaction(mutableData: MutableData): Transaction.Result {
-                if((mutableData.child("Did").value as? Long)!=null){
-                    Did= mutableData.child("Did").value as String
-                }else{
-                    Did="1"
-                }
-
-                return Transaction.success(mutableData);
-            }
-
-            override fun onComplete(
-                databaseError: DatabaseError?,
-                committed: Boolean,
-                currentData: DataSnapshot?
-            ) {
-                //Toast.makeText(applicationContext,"Transaction:onComplete:$databaseError",Toast.LENGTH_LONG).show()
-            }
-        })
-        return Did
-    }
-*/
 
 
 }

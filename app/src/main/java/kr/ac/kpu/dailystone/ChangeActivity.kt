@@ -3,6 +3,7 @@ package kr.ac.kpu.dailystone
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -26,29 +27,32 @@ class ChangeActivity : AppCompatActivity() {
         var ChangeEmail: String
         var ChangePassword: String
 
+        etPasswordChange.transformationMethod = PasswordTransformationMethod.getInstance()
+        etNewPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+
 
         btnAuth.setOnClickListener {
             var existingEmail: String? = etEmailChange.text.toString()
             var existingPassword: String? = etPasswordChange.text.toString()
-
             if (!TextUtils.isEmpty(existingEmail) && !TextUtils.isEmpty(existingPassword)) {
                 //if(originalEmail == existingEmail) {
-                    loginEmail(etEmailChange,etPasswordChange)
-                    /*val credential = EmailAuthProvider
-                        .getCredential(existingEmail!!, existingPassword!!)
-                    user?.reauthenticate(credential)
-                        ?.addOnCompleteListener {
-                            Toast.makeText(this, "인증이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                            tvNewEmail.visibility = View.VISIBLE
-                            tvNewPassword.visibility = View.VISIBLE
-                            etNewEmail.visibility = View.VISIBLE
-                            etNewPassword.visibility = View.VISIBLE
-                            btnChangeAccept.visibility = View.VISIBLE
-                        }*/
+
+                loginEmail(etEmailChange,etPasswordChange)
+                /*val credential = EmailAuthProvider
+                    .getCredential(existingEmail!!, existingPassword!!)
+                user?.reauthenticate(credential)
+                    ?.addOnCompleteListener {
+                        Toast.makeText(this, "인증이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                        tvNewEmail.visibility = View.VISIBLE
+                        tvNewPassword.visibility = View.VISIBLE
+                        etNewEmail.visibility = View.VISIBLE
+                        etNewPassword.visibility = View.VISIBLE
+                        btnChangeAccept.visibility = View.VISIBLE
+                    }*/
                 //} else{
-                    //Toast.makeText(this, "이메일이 다릅니다.", Toast.LENGTH_SHORT).show()
-                    
-               // }
+                //Toast.makeText(this, "이메일이 다릅니다.", Toast.LENGTH_SHORT).show()
+
+                // }
             }else{
                 Toast.makeText(this, "이메일과 비밀번호 빈칸이 없어야 합니다.", Toast.LENGTH_SHORT).show()
             }
@@ -56,14 +60,22 @@ class ChangeActivity : AppCompatActivity() {
 
         btnChangeAccept.setOnClickListener {
             val intent1 = Intent(this, UserInfoActivity::class.java)
+            val intent2 = Intent(this, LoginActivity::class.java)
             ChangeEmail = etNewEmail.text.toString()
             ChangePassword = etNewPassword.text.toString()
-            emailUpdate(ChangeEmail)
-            passwordUpdate(ChangePassword)
-            intent1.putExtra("email", ChangeEmail)
-            intent1.putExtra("password", ChangePassword)
-            Toast.makeText(this, "이메일과 비밀번호 빈칸이 없어야 합니다.", Toast.LENGTH_SHORT).show()
-            signOut()
+            if(etEmailChange.text.toString() == ChangeEmail &&  etPasswordChange.text.toString() == ChangePassword ){
+                Toast.makeText(this, "새로운 이메일과 비밀번호가 기존과 같습니다.", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                emailUpdate(ChangeEmail)
+                passwordUpdate(ChangePassword)
+                intent1.putExtra("email", ChangeEmail)
+                intent1.putExtra("password", ChangePassword)
+                signOut()
+                startActivity(intent2)
+
+
+            }
         }
 
         btnChangeCancel.setOnClickListener {
@@ -105,7 +117,7 @@ class ChangeActivity : AppCompatActivity() {
                 Toast.makeText(this, "인증이 완료되었습니다.", Toast.LENGTH_SHORT).show()
             } else {
                 //로그인에 실패했을 때 넣는 코드
-                Toast.makeText(this, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "인증에 실패하였습니다.", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -81,13 +81,14 @@
 
 
     <ImageView
-        android:id="@+id/btnEditEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btnChangeProfile"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/tvChEmail"
-        app:layout_constraintLeft_toRightOf="@id/etChEmail"
+        app:layout_constraintBottom_toBottomOf="@id/tvChPassword"
+        app:layout_constraintLeft_toRightOf="@id/etChPassword"
         app:layout_constraintTop_toTopOf="@+id/tvChEmail"
         app:layout_constraintVertical_bias="0.8"
         app:srcCompat="@drawable/ic_baseline_edit_24" />
@@ -128,18 +129,6 @@
         app:layout_constraintLeft_toRightOf="@id/tvPassword"
         app:layout_constraintRight_toRightOf="@id/guideline3"
         app:layout_constraintTop_toBottomOf="@id/tvChEmail" />
-
-    <ImageView
-        android:id="@+id/btnEditPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/tvChPassword"
-        app:layout_constraintLeft_toRightOf="@id/etChPassword"
-        app:layout_constraintTop_toBottomOf="@+id/etChEmail"
-        android:clickable="true"
-        app:srcCompat="@drawable/ic_baseline_edit_24"
-        android:focusable="true" />
-
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"

@@ -54,21 +54,8 @@ class UserInfoActivity : AppCompatActivity() {
                 }
             }*/
 
-            btnEditPassword.setOnClickListener {
-                if (editFlagPassword == false) {
-                    editFlagPassword = true
-                    tvChPassword.visibility = View.INVISIBLE
-                    etChPassword.visibility = View.VISIBLE
 
-                } else {
-                    editFlagPassword = false
-                    //tvChPassword.text = etChPassword.text
-                    tvChPassword.visibility = View.VISIBLE
-                    etChPassword.visibility = View.INVISIBLE
-                }
-            }
-
-            btnEditEmail.setOnClickListener {
+        btnChangeProfile.setOnClickListener {
                 Log.d("Min: plz", "jaebal: plz")
                 val intent = Intent(this,ChangeActivity::class.java)
                 startActivity(intent)

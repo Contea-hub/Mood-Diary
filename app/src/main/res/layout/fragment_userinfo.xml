@@ -36,6 +36,25 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/userBtnReset" />
+    <Button
+        android:id="@+id/btnGoalSet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="이달의 목표치 설정"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnLockSet" />
+
+    <Button
+        android:id="@+id/btnGoalSet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="일일 목표치"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLockSet" />
 
     <Button
         android:id="@+id/userBtnLogout"
@@ -45,6 +64,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLockSet" />
+        app:layout_constraintTop_toBottomOf="@+id/btnGoalSet" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
