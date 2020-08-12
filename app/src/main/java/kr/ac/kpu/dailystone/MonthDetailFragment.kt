@@ -1,8 +1,11 @@
 package kr.ac.kpu.dailystone
 
+import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -47,6 +51,7 @@ class MonthDetailFragment : DialogFragment() {
     private var selYear : String? = null
     private var selMonth : String? = null
     private var selDay : String? = null
+    private lateinit var mContext : Context
     var width = Resources.getSystem().displayMetrics.widthPixels
     var devicewidth = (width - 200) / 5
 
@@ -72,18 +77,24 @@ class MonthDetailFragment : DialogFragment() {
 
         rootView.tvOutputMonth.text = selYear + "년" + selMonth + "월" + selDay + "일 "
         val postListener = object : ValueEventListener {
+
+
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onDataChange(snapshot: DataSnapshot) {
                 rootView.monthGriddetail.removeAllViews()
                 val childCount = snapshot.childrenCount.toInt()
+
                 for (i in 1 until childCount + 1) {
                     Log.d("HAN", "check $i : ${snapshot.child("$i").hasChildren()}")
                     if(i<10){
                         if (snapshot.child("$i").hasChildren()) {
-                            val gv: GridLayout = rootView.findViewById(R.id.monthGriddetail)
-                            val iv: ImageView = ImageView(context)
-                            iv.setImageResource(R.drawable.happy_level1)
+                            var gv: GridLayout = rootView.findViewById(R.id.monthGriddetail)
                             val params = LinearLayout.LayoutParams(devicewidth, devicewidth)
+                            val mInflater : LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                            //var iv : ImageView = ImageView(context)
+                            var iv = mInflater.inflate(R.layout.inflater_imageview, gv, false)
+                            matchImageViewColor(iv.findViewById(R.id.imageView), snapshot.child("$i").child("color").value.toString())
+                            matchImageViewResource(iv.findViewById(R.id.imageView), snapshot.child("$i").child("emoticon").value.toString())
                             iv.layoutParams = params
                             iv.setOnClickListener {
                                 val dateSet = selYear + selMonth + selDay
@@ -91,15 +102,20 @@ class MonthDetailFragment : DialogFragment() {
                                 dialog.show()
                                 dialog.ddEdHl.setText(snapshot.child("$i").child("level").value.toString())
                                 dialog.ddEdDiary.setText(snapshot.child("$i").child("diary").value.toString())
+                                matchImageViewColor(dialog.ddIvicon, snapshot.child("$i").child("color").value.toString())
+                                matchImageViewResource(dialog.ddIvicon, snapshot.child("$i").child("emoticon").value.toString())
                             }
                             gv.addView(iv)
                         }
                     }else {
                         if (snapshot.child("$i").hasChildren()) {
-                            val gv: GridLayout = rootView.findViewById(R.id.monthGriddetail)
-                            val iv: ImageView = ImageView(context)
-                            iv.setImageResource(R.drawable.happy_level1)
+                            var gv: GridLayout = rootView.findViewById(R.id.monthGriddetail)
                             val params = LinearLayout.LayoutParams(devicewidth, devicewidth)
+                            val mInflater : LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                            //var iv : ImageView = ImageView(context)
+                            var iv = mInflater.inflate(R.layout.inflater_imageview, gv, false)
+                            matchImageViewColor(iv.findViewById(R.id.imageView), snapshot.child("$i").child("color").value.toString())
+                            matchImageViewResource(iv.findViewById(R.id.imageView), snapshot.child("$i").child("emoticon").value.toString())
                             iv.layoutParams = params
                             iv.setOnClickListener {
                                 val dateSet = selYear + selMonth + selDay
@@ -107,7 +123,8 @@ class MonthDetailFragment : DialogFragment() {
                                 dialog.show()
                                 dialog.ddEdHl.setText(snapshot.child("$i").child("level").value.toString())
                                 dialog.ddEdDiary.setText(snapshot.child("$i").child("diary").value.toString())
-
+                                matchImageViewColor(dialog.ddIvicon, snapshot.child("$i").child("color").value.toString())
+                                matchImageViewResource(dialog.ddIvicon, snapshot.child("$i").child("emoticon").value.toString())
                             }
                             gv.addView(iv)
                         }
@@ -135,6 +152,66 @@ class MonthDetailFragment : DialogFragment() {
         dialog?.window?.attributes = params as android.view.WindowManager.LayoutParams
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
+
+
+    private fun matchImageViewColor(view : ImageView, i : String){
+        when(i){
+            "1" -> {
+                view.setColorFilter(Color.rgb(255,0,0))
+            }
+
+            "2" -> {
+                view.setColorFilter(Color.rgb(255,192,0))
+            }
+
+            "3" -> {
+                view.setColorFilter(Color.rgb(0, 176,80))
+            }
+
+            "4" -> {
+                view.setColorFilter(Color.rgb(0,112,192))
+            }
+            "0" -> {
+                view.setColorFilter(Color.rgb(0,112,192))
+            }
+        }
+    }
+
+    private fun matchImageViewResource(view : ImageView, i : String){
+        when(i){
+            "0" -> {
+                view.setImageResource(R.drawable.basic_level)
+            }
+            "1" -> {
+                view.setImageResource(R.drawable.happy_level1)
+            }
+
+            "2" -> {
+                view.setImageResource(R.drawable.happy_level2)
+            }
+
+            "3" -> {
+                view.setImageResource(R.drawable.happy_level3)
+            }
+
+            "4" -> {
+                view.setImageResource(R.drawable.sad_level1)
+            }
+
+            "5" -> {
+                view.setImageResource(R.drawable.sad_level2)
+            }
+
+            "6" -> {
+                view.setImageResource(R.drawable.sad_level3)
+            }
+
+        }
+    }
 
 
 }

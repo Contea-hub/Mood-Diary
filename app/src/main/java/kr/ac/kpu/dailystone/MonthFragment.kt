@@ -81,7 +81,22 @@ class MonthFragment : Fragment() {
                             var width = Resources.getSystem().displayMetrics.widthPixels
                             var devicewidth = (width - 128) / 5
                             val iv: ImageView = ImageView(context)
-                            iv.setImageResource(R.drawable.happy_level1)
+                            val monthCount = snapshot.child("0$i").childrenCount.toInt()
+                            for(j in 1 until monthCount + 1){
+                                var sum = 0
+                                sum += snapshot.child("0$i").child("$j")
+                                    .child("level").value.toString().toInt()
+                                var meanSum : Int = (sum / monthCount)
+                                if(meanSum in 1..20){
+                                    iv.setImageResource(R.drawable.level_sad)
+                                }else if(meanSum in 21..50){
+                                    iv.setImageResource(R.drawable.level_normal)
+                                }else if(meanSum in 51..100){
+                                    iv.setImageResource(R.drawable.level_happy)
+                                }
+
+                            }
+                            //iv.setImageResource(R.drawable.happy_level1)
                             val params = LinearLayout.LayoutParams(devicewidth, devicewidth)
                             iv.layoutParams = params
                             iv.setOnClickListener {
@@ -98,8 +113,26 @@ class MonthFragment : Fragment() {
                             val gv: GridLayout = rootView.findViewById(R.id.monthGrid)
                             var width = Resources.getSystem().displayMetrics.widthPixels
                             var devicewidth = (width - 128) / 5
+                            var sum = 0
                             val iv: ImageView = ImageView(context)
-                            iv.setImageResource(R.drawable.happy_level1)
+                            val monthCount = snapshot.child("$i").childrenCount.toInt()
+                            for(j in 1 until monthCount + 1) {
+
+                                sum += snapshot.child("$i").child("$j")
+                                    .child("level").value.toString().toInt()
+                                var meanSum: Int = (sum / monthCount)
+                                Log.d("HAN", "$meanSum")
+                                if (meanSum in 1..20) {
+                                    iv.setImageResource(R.drawable.level_sad)
+                                } else if (meanSum in 21..50) {
+                                    iv.setImageResource(R.drawable.level_normal)
+                                } else if (meanSum in 51..100) {
+                                    iv.setImageResource(R.drawable.level_happy)
+                                }
+                                Log.d("HAN", "meansum : $meanSum")
+
+                            }
+                                //iv.setImageResource(R.drawable.happy_level1)
                             val params = LinearLayout.LayoutParams(devicewidth, devicewidth)
                             iv.layoutParams = params
                             iv.setOnClickListener {

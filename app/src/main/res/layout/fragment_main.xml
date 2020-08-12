@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background_main">
 
     <TextView
         android:id="@+id/mainTvDate"
@@ -53,6 +53,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainTvDate" />
 
+    <ProgressBar
+        android:id="@+id/mainPbDgoal"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginStart="30sp"
+        android:layout_marginEnd="30dp"
+        android:max="1"
+        android:progressDrawable="@drawable/progressbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainPbMgoal" />
 
     <ProgressBar
         android:id="@+id/mainPbMgoal2"
@@ -68,21 +82,6 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainTvDate" />
-
-    <ProgressBar
-        android:id="@+id/mainPbDgoal"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginStart="30sp"
-        android:layout_marginEnd="30dp"
-        android:max="1"
-        android:progressDrawable="@drawable/progressbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainPbMgoal" />
 
     <ProgressBar
         android:id="@+id/mainPbDgoal2"
@@ -105,8 +104,8 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
         android:layout_marginStart="30sp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="30dp"
         android:progress="50"
         android:progressDrawable="@drawable/progressbar"
