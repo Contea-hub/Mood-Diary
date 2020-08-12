@@ -53,8 +53,8 @@ class LoginActivity : AppCompatActivity() {
     private var formatted: String = current.format(formatter)
     var year = formatted.substring(2,4)
     var month = formatted.substring(4,6)
-    val dlgView = layoutInflater.inflate(R.layout.dialog_progress , null)
-    val progressDialog = AlertDialog.Builder(this)
+   /* val dlgView = layoutInflater.inflate(R.layout.dialog_progress , null)
+    val progressDialog = AlertDialog.Builder(this)*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

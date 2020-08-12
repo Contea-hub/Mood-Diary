@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_main"
     tools:context=".SignupActivity">
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.05" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBaseline_toBaselineOf="@id/etIdInput"
-        app:layout_constraintRight_toLeftOf="@id/etIdInput"
         android:text="아이디 : "
-        />
+        app:layout_constraintBaseline_toBaselineOf="@id/etIdInput"
+        app:layout_constraintRight_toLeftOf="@id/etIdInput" />
 
     <EditText
         android:id="@+id/etIdInput"
@@ -32,9 +34,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="패스워드 : "
-        app:layout_constraintRight_toLeftOf="@id/etPassInput"
         app:layout_constraintBaseline_toBaselineOf="@id/etPassInput"
-        />
+        app:layout_constraintRight_toLeftOf="@id/etPassInput" />
 
     <EditText
         android:id="@+id/etPassInput"
@@ -50,9 +51,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="패스워드 확인 : "
-        app:layout_constraintRight_toLeftOf="@id/etPassReInput"
         app:layout_constraintBaseline_toBaselineOf="@id/etPassReInput"
-        />
+        app:layout_constraintRight_toLeftOf="@id/etPassReInput" />
 
     <EditText
         android:id="@+id/etPassReInput"
@@ -68,24 +68,20 @@
         android:id="@+id/btnConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:background="#00FF0000"
         android:text="확인"
-        android:textColor="#00BFFF"/>
+        android:textColor="#00BFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         android:id="@+id/btnCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/btnConfirm"
         android:background="#00FF0000"
         android:text="취소"
-        />
-
-
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btnConfirm" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

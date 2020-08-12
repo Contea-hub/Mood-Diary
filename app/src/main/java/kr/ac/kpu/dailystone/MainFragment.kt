@@ -1,22 +1,30 @@
 package kr.ac.kpu.dailystone
 
+import android.content.res.Resources
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
+import android.widget.GridLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_main.*
 import kr.ac.kpu.dailystone.MonthDetailFragment.Companion.TAG
+import org.w3c.dom.Text
+import kotlinx.android.synthetic.main.fragment_main.view.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -24,7 +32,6 @@ import java.time.format.DateTimeFormatter
 @RequiresApi(Build.VERSION_CODES.O)
 class MainFragment : Fragment() {
     companion object { // 상수 역할
-
         fun newInstance(): MainFragment {
             return MainFragment()
         }
@@ -51,25 +58,21 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         mAuth = FirebaseAuth.getInstance();
         db = Firebase.database.reference
-
-        //ProgressView()
         readCount()
         goalCount()
-        dailyGoal()
+        dailyGoal(date)
         mainTvDate.text = date
 
         mainBtnHappy.setOnClickListener {
-            //var dialog = DialogAddFragment(it.context,date)
-            var dialog = DialogDiaryFragment(it.context, date)
+            var dialog = DialogDiaryFragment(it.context,date)
             dialog.show()
         }
-        mainBtnSad.setOnClickListener {
-            var dialog = DialogSadAddFragment(it.context)
-            dialog.show()
-        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         mainBtnPre.setOnClickListener {
             preDate()
         }
@@ -83,11 +86,64 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_main, container, false)
+        readDayDiary(rootView)
+
+        return rootView
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    private fun readDayDiary(rootView:View){
+        db = Firebase.database.reference
+        var user = FirebaseAuth.getInstance().currentUser
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                rootView.mainGrid.removeAllViews()
+                val childCount = snapshot.childrenCount.toInt()
+                Log.d("test","childCount : $childCount")
+                for (i in 1 until childCount + 1) {
+                    if (snapshot.child("$i").hasChildren()) {
+                        val gv: GridLayout = rootView.findViewById(R.id.mainGrid)
+                        var width = Resources.getSystem().displayMetrics.widthPixels
+                        var devicewidth = (width - 128) / 5
+                        val iv = ImageView(context)
+
+                        matchImageViewColor(iv, snapshot.child("$i").child("color").value.toString())
+                        matchImageViewResource(iv, snapshot.child("$i").child("emoticon").value.toString())
+
+                        val params = LinearLayout.LayoutParams(devicewidth, devicewidth)
+                        iv.layoutParams = params
+                        gv.addView(iv)
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        }
+        db.child(user!!.uid).child("diary").child(year).child(monthformatted).child(dayformatted)
+            .addValueEventListener(postListener)
+    }
+
+    private fun matchImageViewColor(view : ImageView, i : String){
+        when(i){
+            "1" -> {view.setColorFilter(Color.rgb(255,0,0))}
+            "2" -> {view.setColorFilter(Color.rgb(255,192,0))}
+            "3" -> {view.setColorFilter(Color.rgb(0, 176,80))}
+            "4" -> {view.setColorFilter(Color.rgb(0,112,192))}
+            "0" -> {view.setColorFilter(Color.rgb(0,112,192))}
+        }
+    }
+
+    private fun matchImageViewResource(view : ImageView, i : String){
+        when(i){
+            "0" -> {view.setImageResource(R.drawable.basic_level) }
+            "1" -> {view.setImageResource(R.drawable.happy_level1) }
+            "2" -> {view.setImageResource(R.drawable.happy_level2) }
+            "3" -> {view.setImageResource(R.drawable.happy_level3)}
+            "4" -> {view.setImageResource(R.drawable.sad_level1) }
+            "5" -> {view.setImageResource(R.drawable.sad_level2)}
+            "6" -> {view.setImageResource(R.drawable.sad_level3)}
+        }
     }
 
     private fun readCount() {
@@ -117,31 +173,19 @@ class MainFragment : Fragment() {
         var day: Int = 50
         var dayList = mutableListOf<Int>()
         var value = 0
-        var goalDaily: Any
-        var goalList = mutableListOf<Int>()
-        var iMax: Query
-        iMax = db.child(user!!.uid).child("credits").orderByKey().limitToLast(1);
-
 
         val dayListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 var level: Any = 0
                 for (i in 0 until dcnt) {
-                    if (snapshot.child((i + 1).toString()).child("level").value == null) {
-
-                    } else {
+                    if (snapshot.child((i + 1).toString()).child("level").value != null) {
                         level = snapshot.child((i + 1).toString()).child("level").value!!
-                        // goalDaily = snapshot.child((i + 1).toString()).value!!
-                        // goalList.add(i, goalDaily.toString().toInt())
                         dayList.add(i, level.toString().toInt())
                     }
                 }
-                //iMax = goalList.count()
-
                 day = dayList.average().toInt()
                 value = day
                 mainPbDay.progress = value
-                // mainPbDgoal2.progress = iMax
             }
 
             override fun onCancelled(error: DatabaseError) {}
@@ -150,13 +194,9 @@ class MainFragment : Fragment() {
             .child(dayformatted).addListenerForSingleValueEvent(dayListener)
 
     }
-
-    //private fun goal
-
     private fun goalCount() {
         var user = FirebaseAuth.getInstance().currentUser
         var gSum: Int = 0
-        var dSum: Int = 0
         val goalListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (i in 1..31) {
@@ -164,7 +204,6 @@ class MainFragment : Fragment() {
                         if (snapshot.child(year + monthformatted + "0$i")
                                 .child("count").value == null
                         ) {
-
                         } else {
                             gSum += snapshot.child(year + monthformatted + "0$i")
                                 .child("count").value.toString().toInt()
@@ -192,7 +231,9 @@ class MainFragment : Fragment() {
     private fun monthGoal(gSum: Int) {
         var user = FirebaseAuth.getInstance().currentUser
         var Maxgoal: Int = 0
-
+        val mainTvDate : TextView = requireView().findViewById(R.id.mainTvDate)
+        val mainPbMgoal : ProgressBar = requireView().findViewById(R.id.mainPbMgoal)
+        val mainPbMgoal2 : ProgressBar = requireView().findViewById(R.id.mainPbMgoal2)
         val goalListener = object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -247,38 +288,30 @@ class MainFragment : Fragment() {
 
         }
         db.child(user!!.uid).addValueEventListener(goalListener)
-        /*override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.child("goal").child(year).child(monthformatted).child("goal").value == null) {
-                    goal = 0
-                    mainPbMgoal.max = 0
-                } else {
-                    goal = snapshot.child("goal").child(year).child(monthformatted).child("goal").value!!
-                    //일별 평균 level 출력
-                    mainPbMgoal.max = goal as Int
-                }
-            }*/
-
     }
 
-    private fun dailyGoal() {
+    private fun dailyGoal(date:String) {
         var user = FirebaseAuth.getInstance().currentUser
         var MaxDay: Int = 1
         var Dgoal: Int = 0
+        val mainPbDgoal : ProgressBar = requireView().findViewById(R.id.mainPbDgoal)
+        val mainPbDgoal2 : ProgressBar = requireView().findViewById(R.id.mainPbDgoal2)
+        mainPbDgoal.max = MaxDay
         val DgoalListener = object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                mainPbDgoal.max = MaxDay
+
                 if (snapshot.child("count").child(date).child("count").value == null) {
 
                 } else {
                     Dgoal =
                         snapshot.child("count").child(date).child("count").value.toString().toInt()
+                    mainPbDgoal.progress = Dgoal
 
                 }
-                mainPbDgoal.progress = Dgoal
 
                 if (Dgoal <= 1) {
                     mainPbDgoal.progress = Dgoal
@@ -294,8 +327,6 @@ class MainFragment : Fragment() {
         }
         db.child(user!!.uid).addValueEventListener(DgoalListener)
     }
-
-
     private fun preDate() {//이전 날짜 조회
 
         var ld: LocalDate = LocalDate.of(year.toInt(), monthformatted.toInt(), dayformatted.toInt())
@@ -306,9 +337,11 @@ class MainFragment : Fragment() {
         monthformatted = formatted2.substring(4, 6)
         dayformatted = formatted2.substring(6, 8)
         mainTvDate.text = date
+        var ft : FragmentTransaction? = fragmentManager?.beginTransaction()
+        ft?.detach(this)?.attach(this)?.commit()
         readCount()
         goalCount()
-        dailyGoal()
+        dailyGoal(date)
     }
 
     private fun nextDate() {//다음 날짜 조회
@@ -320,8 +353,10 @@ class MainFragment : Fragment() {
         monthformatted = formatted2.substring(4, 6)
         dayformatted = formatted2.substring(6, 8)
         mainTvDate.text = date
+        var ft : FragmentTransaction? = fragmentManager?.beginTransaction()
+        ft?.detach(this)?.attach(this)?.commit()
         readCount()
         goalCount()
-        dailyGoal()
+        dailyGoal(date)
     }
 }

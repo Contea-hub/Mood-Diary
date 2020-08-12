@@ -49,16 +49,6 @@
         app:layout_constraintTop_toBottomOf="@id/btnLockSet" />
 
     <Button
-        android:id="@+id/btnGoalSet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="일일 목표치"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLockSet" />
-
-    <Button
         android:id="@+id/userBtnLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

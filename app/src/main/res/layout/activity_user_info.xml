@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_main"
     tools:context=".UserInfoActivity">
 
     <ImageView
@@ -41,15 +42,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25"
-        />
+        app:layout_constraintGuide_percent="0.25" />
 
     <TextView
         android:id="@+id/tvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="이메일 : "
         android:layout_marginTop="10dp"
+        android:text="이메일 : "
         app:layout_constraintLeft_toLeftOf="@id/guideline2"
         app:layout_constraintRight_toLeftOf="@id/tvChEmail"
         app:layout_constraintTop_toBottomOf="@id/guideline" />
@@ -58,8 +58,8 @@
         android:id="@+id/tvChEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="setting Email"
         android:layout_marginTop="10dp"
+        android:text="setting Email"
         app:layout_constraintLeft_toRightOf="@id/tvEmail"
         app:layout_constraintRight_toRightOf="@id/guideline3"
         app:layout_constraintTop_toBottomOf="@id/guideline" />
@@ -68,12 +68,12 @@
         android:id="@+id/etChEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="setting Email"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:maxLines="1"
+        android:text="setting Email"
         android:textSize="14sp"
         android:visibility="invisible"
-        android:focusableInTouchMode="true"
-        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="@+id/tvChEmail"
         app:layout_constraintLeft_toRightOf="@id/tvEmail"
         app:layout_constraintRight_toRightOf="@id/guideline3"
@@ -97,8 +97,8 @@
         android:id="@+id/tvPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="패스워드 : "
         android:layout_marginTop="10dp"
+        android:text="패스워드 : "
 
         app:layout_constraintLeft_toLeftOf="@id/guideline2"
         app:layout_constraintRight_toLeftOf="@id/tvChPassword"
@@ -108,8 +108,8 @@
         android:id="@+id/tvChPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="setting Password"
         android:layout_marginTop="10dp"
+        android:text="setting Password"
         app:layout_constraintLeft_toRightOf="@id/tvPassword"
         app:layout_constraintRight_toRightOf="@id/guideline3"
         app:layout_constraintTop_toBottomOf="@id/tvChEmail" />
@@ -119,12 +119,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="setting Password"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:maxLines="1"
+        android:text="setting Password"
         android:textSize="14sp"
         android:visibility="invisible"
-        android:focusableInTouchMode="true"
-        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="@+id/tvChPassword"
         app:layout_constraintLeft_toRightOf="@id/tvPassword"
         app:layout_constraintRight_toRightOf="@id/guideline3"
@@ -135,13 +135,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.25"/>
+        app:layout_constraintGuide_percent="0.25" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.75"/>
+        app:layout_constraintGuide_percent="0.75" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

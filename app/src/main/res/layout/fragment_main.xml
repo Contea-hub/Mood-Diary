@@ -45,8 +45,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="30dp"
-        android:background="#FFFFFF"
-
+        android:background="#00FFFFFF"
         android:progressDrawable="@drawable/progressbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -123,33 +122,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/mainTvSad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="40dp"
-        android:text="힘듦"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainTvHappy" />
-
     <Button
         android:id="@+id/mainBtnHappy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/mainTvHappy"
+        app:layout_constraintStart_toEndOf="@id/mainTvHappy"
+        app:layout_constraintBaseline_toBaselineOf="@+id/mainTvHappy"
         app:layout_constraintTop_toTopOf="@+id/mainTvHappy" />
 
-    <Button
-        android:id="@+id/mainBtnSad"
-        android:layout_width="wrap_content"
+    <GridLayout
+        android:id="@+id/mainGrid"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
-        android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/mainTvSad"
-        app:layout_constraintTop_toBottomOf="@+id/mainBtnHappy" />
+        android:columnCount="5"
+        android:padding="64px"
+        app:layout_constraintTop_toBottomOf="@id/mainBtnHappy"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
