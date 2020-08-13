@@ -57,11 +57,10 @@ class MainFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         mAuth = FirebaseAuth.getInstance();
         db = Firebase.database.reference
         readCount()
-        goalCount()
+        goalCount(date)
         dailyGoal(date)
         mainTvDate.text = date
 
@@ -194,32 +193,33 @@ class MainFragment : Fragment() {
             .child(dayformatted).addListenerForSingleValueEvent(dayListener)
 
     }
-    private fun goalCount() {
+    private fun goalCount(date:String) {
         var user = FirebaseAuth.getInstance().currentUser
         var gSum: Int = 0
+        var gDate = date.substring(0,4)
         val goalListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (i in 1..31) {
                     if (i < 10) {
-                        if (snapshot.child(year + monthformatted + "0$i")
+                        if (snapshot.child(gDate + "0$i")
                                 .child("count").value == null
                         ) {
                         } else {
-                            gSum += snapshot.child(year + monthformatted + "0$i")
+                            gSum += snapshot.child(gDate+ "0$i")
                                 .child("count").value.toString().toInt()
                         }
                     } else {
-                        if (snapshot.child(year + monthformatted + "$i")
+                        if (snapshot.child(gDate + "$i")
                                 .child("count").value == null
                         ) {
 
                         } else {
-                            gSum += snapshot.child(year + monthformatted + "$i")
+                            gSum += snapshot.child(gDate+ "$i")
                                 .child("count").value.toString().toInt()
                         }
                     }
                 }
-                monthGoal(gSum)
+                monthGoal(gSum,date)
             }
 
             override fun onCancelled(error: DatabaseError) {}
@@ -228,17 +228,19 @@ class MainFragment : Fragment() {
             .addValueEventListener(goalListener)
     }
 
-    private fun monthGoal(gSum: Int) {
+    private fun monthGoal(gSum: Int, date : String) {
         var user = FirebaseAuth.getInstance().currentUser
         var Maxgoal: Int = 0
-        val mainTvDate : TextView = requireView().findViewById(R.id.mainTvDate)
+        //val mainTvDate : TextView = requireView().findViewById(R.id.mainTvDate)
         val mainPbMgoal : ProgressBar = requireView().findViewById(R.id.mainPbMgoal)
         val mainPbMgoal2 : ProgressBar = requireView().findViewById(R.id.mainPbMgoal2)
         val goalListener = object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                var goalYear = mainTvDate.text.toString().substring(0, 2)
-                var goalMonth = mainTvDate.text.toString().substring(2, 4)
+               // var goalYear = mainTvDate.text.toString().substring(0, 2)
+               //var goalMonth = mainTvDate.text.toString().substring(2, 4)
+                var goalYear = date.substring(0,2)
+                var goalMonth = date.substring(2,4)
 
                 if (snapshot.child("goal").child(goalYear).child(goalMonth)
                         .child("goal").value == null
@@ -260,19 +262,25 @@ class MainFragment : Fragment() {
                     mainPbMgoal.progress = gSum
                     mainPbMgoal2.progress = 0
                     Log.d("pb", "1 gsum : $gSum, MaxGoal : $Maxgoal")
-                } else {
-                    /* val progress2: Drawable = mainPbMgoal.progressDrawable.mutate()
-                     progress2.setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
-                     mainPbMgoal.progressDrawable = progress2*/
-                    mainPbMgoal.progress = Maxgoal
-                    mainPbMgoal2.progress = gSum - Maxgoal
-                    Log.d("pb", "2 gsum : $gSum, MaxGoal : $Maxgoal")
-                    if ((gSum - Maxgoal) > Maxgoal) {
+                } else if ((gSum - Maxgoal) == Maxgoal) {
+                        mainPbMgoal.progress = Maxgoal
                         mainPbMgoal2.progress = Maxgoal
                         Log.d(
                             "pb", "3 gs" +
-                                    "um : $gSum, MaxGoal : $Maxgoal"
+                                    "um : $gSum, MaxGoal : $Maxgoal, pr1 : ${mainPbMgoal.progress} ,pr2 : ${mainPbMgoal2.progress}"
                         )
+                    } else {
+                    /* val progress2: Drawable = mainPbMgoal.progressDrawable.mutate()
+                     progress2.setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
+                     mainPbMgoal.progressDrawable = progress2*/
+
+                    Log.d("pb", "2 gsum : $gSum, MaxGoal : $Maxgoal ,pr1 : ${mainPbMgoal.progress} , pr2 : ${mainPbMgoal2.progress}")
+                    if ((gSum - Maxgoal) > Maxgoal) {
+                    }
+                    else{
+                        mainPbMgoal.progress = Maxgoal
+                        mainPbMgoal2.progress = gSum - Maxgoal
+                        Log.d("pb", "4 gsum : $gSum, MaxGoal : $Maxgoal ,pr1 : ${mainPbMgoal.progress} , pr2 : ${mainPbMgoal2.progress}")
                     }
                 }
 
@@ -297,6 +305,7 @@ class MainFragment : Fragment() {
         val mainPbDgoal : ProgressBar = requireView().findViewById(R.id.mainPbDgoal)
         val mainPbDgoal2 : ProgressBar = requireView().findViewById(R.id.mainPbDgoal2)
         mainPbDgoal.max = MaxDay
+        Log.d("vs", "1 Dgoal : $Dgoal, pr1 : ${mainPbDgoal.progress}, pr2 : ${mainPbDgoal2.progress}")
         val DgoalListener = object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
@@ -309,17 +318,17 @@ class MainFragment : Fragment() {
                 } else {
                     Dgoal =
                         snapshot.child("count").child(date).child("count").value.toString().toInt()
-                    mainPbDgoal.progress = Dgoal
-
+                    Log.d("vs", "2 Dgoal : $Dgoal, pr1 : ${mainPbDgoal.progress}, pr2 : ${mainPbDgoal2.progress}")
                 }
-
                 if (Dgoal <= 1) {
                     mainPbDgoal.progress = Dgoal
                     mainPbDgoal2.progress = 0
+                    Log.d("vs", "3 Dgoal : $Dgoal, pr1 : ${mainPbDgoal.progress}, pr2 : ${mainPbDgoal2.progress}")
 
                 } else {
                     mainPbDgoal.progress = MaxDay
                     mainPbDgoal2.progress = Dgoal - MaxDay
+                    Log.d("vs", "4 Dgoal : $Dgoal, pr1 : ${mainPbDgoal.progress}, pr2 : ${mainPbDgoal2.progress}")
                 }
 
             }
@@ -340,7 +349,7 @@ class MainFragment : Fragment() {
         var ft : FragmentTransaction? = fragmentManager?.beginTransaction()
         ft?.detach(this)?.attach(this)?.commit()
         readCount()
-        goalCount()
+        goalCount(date)
         dailyGoal(date)
     }
 
@@ -356,7 +365,7 @@ class MainFragment : Fragment() {
         var ft : FragmentTransaction? = fragmentManager?.beginTransaction()
         ft?.detach(this)?.attach(this)?.commit()
         readCount()
-        goalCount()
+        goalCount(date)
         dailyGoal(date)
     }
 }

@@ -25,13 +25,15 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_userinfo.*
+import kr.ac.kpu.dailystone.AppLockConst.dbLock
 import org.w3c.dom.Text
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 class UserFragment : Fragment() {
-    private var mAuth: FirebaseAuth? = FirebaseAuth.getInstance()
+    private lateinit var db: DatabaseReference
+    private var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     lateinit var database : DatabaseReference
     private val current: LocalDate = LocalDate.now()
     private var formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd")
@@ -48,7 +50,8 @@ class UserFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //mAuth = FirebaseAuth.getInstance()
+        mAuth = FirebaseAuth.getInstance()
+        db = Firebase.database.reference
         userBtninfo.setOnClickListener {
             val intent = Intent(context, UserInfoActivity::class.java)
             startActivity(intent)
@@ -63,8 +66,27 @@ class UserFragment : Fragment() {
         }
 
         btnLockSet.setOnClickListener {
-            val intent = Intent(context, LockActivity::class.java)
-            startActivity(intent)
+            val postListener = object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.child("lock").value == null){
+                    db.child(mAuth.uid!!).child("password").child("lock").setValue(0)
+                    db.child(mAuth.uid!!).child("password").child("password").setValue("")
+                }else{
+                    dbLock = snapshot.child("lock").value.toString().toInt()
+                    val intent = Intent(context, LockActivity::class.java)
+                    intent.putExtra("dbLock",dbLock)
+                    startActivity(intent)
+                }
+            }
+
+
+        }
+            db.child(mAuth.uid!!).child("password").addValueEventListener(postListener)
+
         }
         btnGoalSet.setOnClickListener {
             val dlgView = layoutInflater.inflate(R.layout.dialog_goal_setting , null)
