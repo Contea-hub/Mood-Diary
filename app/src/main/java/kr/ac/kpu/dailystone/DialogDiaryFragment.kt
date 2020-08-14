@@ -23,6 +23,8 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.dialog_diary.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.HashMap
 import kotlin.math.sqrt
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -62,6 +64,14 @@ class DialogDiaryFragment(context: Context,date:String) : Dialog(context) {
         Toast.makeText(context, "date $date", Toast.LENGTH_SHORT).show()
 
         drawIv()
+
+        ddBtnDice.setOnClickListener {
+            var rnd = Random()
+            var num = rnd.nextInt(100)
+            ddEdHl.setText(num.toString())
+            level = ddEdHl.text.toString()
+        }
+
         ddEdHl.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 try {
@@ -300,6 +310,13 @@ class DialogDiaryFragmentModify(context: Context, date:String, val modifyCnt: St
         dayformatted = date.substring(4,6)
         Toast.makeText(context, "date $date", Toast.LENGTH_SHORT).show()
 
+        ddBtnDice.setOnClickListener {
+            var rnd = Random()
+            var num = rnd.nextInt(100)
+            ddEdHl.setText(num.toString())
+            level = ddEdHl.text.toString()
+        }
+
         //touch
         drawIv()
         ddEdHl.addTextChangedListener(object : TextWatcher {
@@ -342,10 +359,10 @@ class DialogDiaryFragmentModify(context: Context, date:String, val modifyCnt: St
         ddIvbackground.isDrawingCacheEnabled = true
         ddIvbackground.buildDrawingCache()
 
-
         LinearDraw.setOnTouchListener(View.OnTouchListener { view, motionEvent ->
             val width = LinearDraw.width-ddIvicon.width
             val height = LinearDraw.height-ddIvicon.height
+            var wlen = ddIvbackground.width-ddIvicon.width
 
             var radius = (motionEvent.getX()-LinearDraw.width/2.toFloat() )*(motionEvent.getX()-LinearDraw.width/2.toFloat() ) +
                     (motionEvent.getY()-LinearDraw.height/2.toFloat() )*(motionEvent.getY()-LinearDraw.height/2.toFloat())
@@ -356,36 +373,36 @@ class DialogDiaryFragmentModify(context: Context, date:String, val modifyCnt: St
                     ddIvicon.setImageResource(R.drawable.onclick_surpirse)
                 }
                 MotionEvent.ACTION_MOVE, MotionEvent.ACTION_DOWN -> { //누르고 움직였을 때
-                    if((width/2)*(width/2) >= radius){//원 안을 눌렀을 때
+                    if((wlen/2)*(wlen/2) >= radius){//원 안을 눌렀을 때
                         changeIconColor(motionEvent)
                         ddIvicon.x = motionEvent.getX() - ddIvicon.width/2
                         ddIvicon.y = motionEvent.getY() - ddIvicon.height/2
 
                         if(motionEvent.getY() <= LinearDraw.height/2.toFloat()) {
-                            if((width / 12) * (width / 12) >= radius) {
+                            if((wlen / 12) * (wlen / 12) >= radius) {
                                 emoticon = 0
                                 ddIvicon.setImageResource(R.drawable.basic_level)
-                            } else if ((width / 6) * (width / 6) >= radius) {
+                            } else if ((wlen / 6) * (wlen / 6) >= radius) {
                                 emoticon = 1
                                 ddIvicon.setImageResource(R.drawable.happy_level1)
-                            } else if ((width / 3) * (width / 3) >= radius) {
+                            } else if ((wlen / 3) * (wlen / 3) >= radius) {
                                 emoticon = 2
                                 ddIvicon.setImageResource(R.drawable.happy_level2)
-                            } else if ((width / 2) * (width / 2) >= radius) {
+                            } else if ((wlen / 2) * (wlen / 2) >= radius) {
                                 emoticon = 3
                                 ddIvicon.setImageResource(R.drawable.happy_level3)
                             }
                         }else{
-                            if((width / 12) * (width / 12) >= radius) {
+                            if((wlen / 12) * (wlen / 12) >= radius) {
                                 emoticon = 0
                                 ddIvicon.setImageResource(R.drawable.basic_level)
-                            } else if ((width / 6) * (width / 6) >= radius) {
+                            } else if ((wlen / 6) * (wlen / 6) >= radius) {
                                 emoticon = 4
                                 ddIvicon.setImageResource(R.drawable.sad_level1)
-                            } else if ((width / 3) * (width / 3) >= radius) {
+                            } else if ((wlen / 3) * (wlen / 3) >= radius) {
                                 emoticon = 5
                                 ddIvicon.setImageResource(R.drawable.sad_level2)
-                            } else if ((width / 2) * (width / 2) >= radius) {
+                            } else if ((wlen / 2) * (wlen / 2) >= radius) {
                                 emoticon = 6
                                 ddIvicon.setImageResource(R.drawable.sad_level3)
                             }
@@ -397,7 +414,7 @@ class DialogDiaryFragmentModify(context: Context, date:String, val modifyCnt: St
                         var mx = motionEvent.getX()
                         var my = motionEvent.getY()
                         var middleX =
-                            (width / 2) * (height / 2) * (1 / (1 + (my - cy) / (mx - cx) * (my - cy) / (mx - cx)))
+                            (wlen / 2) * (wlen / 2) * (1 / (1 + (my - cy) / (mx - cx) * (my - cy) / (mx - cx)))
                         var realX:Float
                         var realY:Float
 
@@ -427,16 +444,17 @@ class DialogDiaryFragmentModify(context: Context, date:String, val modifyCnt: St
             }
             return@OnTouchListener true
         })
-
     }
 
     private fun changeIconColor(motionEvent:MotionEvent){
+        var delx = (LinearDraw.width - ddIvbackground.width)/2
+        var dely = (LinearDraw.height - ddIvbackground.height)/2
         bitmap = ddIvbackground.drawingCache
         var r:Int
         var g:Int
         var b:Int
-        if(motionEvent.x.toInt()<bitmap.width&&motionEvent.y.toInt()<bitmap.height&&motionEvent.y.toInt()>=0&&motionEvent.x.toInt()>=0){
-            val pixel = bitmap.getPixel(motionEvent.x.toInt(),motionEvent.y.toInt())
+        if(motionEvent.x.toInt()<bitmap.width+delx&&motionEvent.x.toInt()>=delx&&motionEvent.y.toInt()<bitmap.height+dely&&motionEvent.y.toInt()>=dely){
+            val pixel = bitmap.getPixel(motionEvent.x.toInt()-delx,motionEvent.y.toInt()-dely)
             r= Color.red(pixel)
             g= Color.green(pixel)
             b= Color.blue(pixel)
@@ -460,36 +478,32 @@ class DialogDiaryFragmentModify(context: Context, date:String, val modifyCnt: St
     private fun onWriteDBPost() {
         db = Firebase.database.reference
         var user = FirebaseAuth.getInstance().currentUser
+
         level = ddEdHl.text.toString()
         diary = ddEdDiary.text.toString()
-
 
         val postValues: HashMap<String, Any> = HashMap()
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val firstEmoticon = snapshot.child("diary").child(year).child(monthformatted)
-                    .child(dayformatted).child(modifyCnt).child("emoticon").value
-                val firstColor = snapshot.child("diary").child(year).child(monthformatted)
-                    .child(dayformatted).child(modifyCnt).child("color").value
+                if (snapshot.child("count").child(date).child("count").value == null) {
+                    cnt = 0
+                } else {
+                    cnt = snapshot.child("count").child(date).child("count").value!!
+                }
 
                 val myRefDiary =
                     db.child(user!!.uid).child("diary").child(year).child(monthformatted)
                         .child(dayformatted)
-                        .child((modifyCnt).toString())
+                        .child((cnt.toString().toInt() + 1).toString())
                 postValues["level"] = level
                 postValues["diary"] = diary
-                if(emoticon == 0) {
-                    postValues["emoticon"] = firstEmoticon!!
-                }else {
-                    postValues["emoticon"] = emoticon
-                }
-                if(diaryColor == 0) {
-                    postValues["color"] = firstColor!!
-                }else {
-                    postValues["color"] = diaryColor
-                }
+                postValues["emoticon"] = emoticon
+                postValues["color"] = diaryColor
+
                 myRefDiary.setValue(postValues)
 
+                val myRefCount = db.child(user!!.uid).child("count").child(date).child("count")
+                myRefCount.setValue(cnt.toString().toInt() + 1)
 
             }
 
