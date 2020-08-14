@@ -2,6 +2,7 @@ package kr.ac.kpu.dailystone
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -26,9 +27,7 @@ import kr.ac.kpu.dailystone.AppLockConst.UNLOCK_PASSWORD
 
 class AppPasswordActivity : AppCompatActivity() {
     private lateinit var db: DatabaseReference
-    private var oldPwd = ""
     private var changePwdUnlock = false
-    private val pass_array = mutableListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lock)
@@ -51,6 +50,7 @@ class AppPasswordActivity : AppCompatActivity() {
             button.setOnClickListener(btnListener)
         }
     }
+
 
     private val btnListener = View.OnClickListener { view ->
         var currentValue = -1
@@ -91,6 +91,10 @@ class AppPasswordActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        //super.onBackPressed()
+
+    }
     //한 칸 지우기를 눌렀을 때
     private fun onDeleteKey() {
         when {
@@ -174,27 +178,12 @@ class AppPasswordActivity : AppCompatActivity() {
                     db.child(user!!.uid).child("password").child("lock").setValue(dbLock)
                     setResult(Activity.RESULT_OK,intent)
                     finish()
-                   // onClear()
-                    //etInputInfo.text = "다시 한번 입력해주세요"
-                } /*else {
-                    if (dbPassword == inputedPassword()) {
-                        AppLock(this).setPassLock(inputedPassword())
-                        dbLock =1
-                        db.child(user!!.uid).child("password").child("password")
-                            .setValue(dbPassword)
-                        db.child(user!!.uid).child("password").child("lock").setValue(dbLock)
-                        setResult(Activity.RESULT_OK)
-                        finish()
-                    } else {
-                        onClear()
-                        etInputInfo.text = "비밀번호가 다릅니다 다시 입력해주세요"
-                    }
-                }*/
+
+                }
             }
             DISABLE_PASSLOCK -> { // 2차비밀번호 삭제
-               // if (AppLock(this).isPassLockSet()) {
+
                     if (dbPassword != inputedPassword()) {
-                        //dbLock = 0
                         etInputInfo.text = "비밀번호가 틀립니다"
                         onClear()
                     } else {
@@ -203,10 +192,7 @@ class AppPasswordActivity : AppCompatActivity() {
                         setResult(Activity.RESULT_OK,intent)
                         finish()
                     }
-                } //else {
-                   // setResult(Activity.RESULT_CANCELED)
-                   // finish()
-                //}
+                }
             UNLOCK_PASSWORD ->
                 if ( inputedPassword() == dbPassword) {
                     setResult(Activity.RESULT_OK)
@@ -216,7 +202,6 @@ class AppPasswordActivity : AppCompatActivity() {
                     onClear()
                 }
             CHANGE_PASSWORD -> {
-                //if (oldPwd == inputedPassword() && !changePwdUnlock) {
                 if (inputedPassword() == dbPassword && !changePwdUnlock) {
                     onClear()
                     Toast.makeText(this, "2차 비밀번호 변경", Toast.LENGTH_SHORT).show()
@@ -224,18 +209,14 @@ class AppPasswordActivity : AppCompatActivity() {
                     etInputInfo.text = "새로운 비밀번호 입력"
                     onClear()
                 } else if (changePwdUnlock) {
-                   /* if (dbPassword == inputedPassword() && changePwdUnlock) {
-                        onClear()
-                        etInputInfo.text = "새로운 비밀번호가 기존과 동일합니다. 다시 입력해주세요"
-                    }else {*/
                         dbPassword = "${etPasscode1.text}${etPasscode2.text}${etPasscode3.text}${etPasscode4.text}"
                         Log.d("kkk","Change dbPassword: $dbPassword")
                         db.child(user!!.uid).child("password").child("password")
                             .setValue(dbPassword)
-                        AppLock(this).setPassLock(inputedPassword())
+                       // AppLock(this).setPassLock(inputedPassword())
                         setResult(Activity.RESULT_OK)
                         finish()
-                   // }
+
                 } else {
                     etInputInfo.text = "비밀번호가 틀립니다. 다시 입력해주세요"
                     changePwdUnlock = false

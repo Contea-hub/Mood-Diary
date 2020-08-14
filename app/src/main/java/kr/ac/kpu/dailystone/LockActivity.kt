@@ -19,7 +19,6 @@ class LockActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lock_choice)
 
-        var user = FirebaseAuth.getInstance().currentUser
         val intent1 = intent
         dbLock = intent1.getIntExtra("dbLock",0)
         Log.d("kkk"," LockActivity dbLock: $dbLock")
@@ -34,6 +33,7 @@ class LockActivity : AppCompatActivity() {
                 startActivityForResult(intent, AppLockConst.ENABLE_PASSLOCK)
                 finish()
             Log.d("Min", "success: start")
+
         }
         //2차 비밀번호 비활성화 눌렀을 경우
         btnDisable.setOnClickListener {
@@ -55,9 +55,11 @@ class LockActivity : AppCompatActivity() {
             finish()
         }
     }
+
     override fun onStop() {
         super.onStop()
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -86,21 +88,7 @@ class LockActivity : AppCompatActivity() {
                 }
         }
     }
-    /* override fun onStart() {
-         super.onStart()
-         if (lock && AppLock(this).isPassLockSet()) {
-             val intent = Intent(this, AppPasswordActivity::class.java).apply {
-                 putExtra(AppLockConst.type, AppLockConst.UNLOCK_PASSWORD)
-             }
-             startActivityForResult(intent, AppLockConst.UNLOCK_PASSWORD)
-         }
-     }*/
-    /*  override fun onPause() {
-          super.onPause()
-          if (AppLock(this).isPassLockSet()) {
-              lock = true
-          }
-      }*/
+
     private fun init() = if (lock && dbLock == 1) {
         btnLock.isEnabled = false
         btnDisable.isEnabled = true

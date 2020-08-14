@@ -3,17 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_main">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/mainTvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="69dp"
-        android:text="7/23"
+        android:layout_marginTop="120dp"
+        android:text="07월 23일"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,21 +20,25 @@
         android:id="@+id/mainBtnPre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="21dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button_background"
         android:text="이전"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/mainTvDate"
         app:layout_constraintEnd_toStartOf="@+id/mainTvDate"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/mainTvDate" />
 
     <Button
         android:id="@+id/mainBtnNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
-        android:layout_marginTop="55dp"
+        android:background="@drawable/button_background"
         android:text="다음"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/mainTvDate"
         app:layout_constraintStart_toEndOf="@+id/mainTvDate"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/mainTvDate" />
 
     <ProgressBar
         android:id="@+id/mainPbMgoal"
@@ -111,32 +114,83 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainPbDgoal" />
 
-    <TextView
-        android:id="@+id/mainTvHappy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="273dp"
-        android:text="행복"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/mainBtnHappy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="Button"
-        app:layout_constraintStart_toEndOf="@id/mainTvHappy"
-        app:layout_constraintBaseline_toBaselineOf="@+id/mainTvHappy"
-        app:layout_constraintTop_toTopOf="@+id/mainTvHappy" />
+        android:layout_marginTop="52dp"
+        android:background="@drawable/button_background"
+        android:ems="8"
+        android:text="돌멩쓰 추가하기"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainPbDay" />
 
-    <GridLayout
-        android:id="@+id/mainGrid"
+    <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mainBtnHappy">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent">
+
+            <GridLayout
+                android:id="@+id/mainGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="5"
+                android:paddingBottom="64px"
+                android:paddingLeft="64px"
+                android:paddingRight="64px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </ScrollView>
+
+
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="145dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/textline" />
+
+    <TextView
+        android:id="@+id/mainTvmgoal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:columnCount="5"
-        android:padding="64px"
-        app:layout_constraintTop_toBottomOf="@id/mainBtnHappy"/>
+        android:text="이 달의 목표치 : "
+        app:layout_constraintBottom_toTopOf="@+id/mainPbDgoal"
+        app:layout_constraintStart_toStartOf="@+id/mainPbMgoal"
+        app:layout_constraintTop_toBottomOf="@+id/mainPbMgoal" />
+
+    <TextView
+        android:id="@+id/mainTvdgoal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="오늘의 목표치 : "
+        app:layout_constraintBottom_toTopOf="@+id/mainPbDay"
+        app:layout_constraintStart_toStartOf="@+id/mainPbDgoal"
+        app:layout_constraintTop_toBottomOf="@+id/mainPbDgoal" />
+
+    <TextView
+        android:id="@+id/mainTvday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="오늘의 행복지수 : "
+        app:layout_constraintStart_toStartOf="@+id/mainPbDay"
+        app:layout_constraintTop_toBottomOf="@+id/mainPbDay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

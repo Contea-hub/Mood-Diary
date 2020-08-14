@@ -113,6 +113,4 @@ class DialogSadAddFragment(context: Context) : Dialog(context) {
         })
         return Did
     }
-
-
 }

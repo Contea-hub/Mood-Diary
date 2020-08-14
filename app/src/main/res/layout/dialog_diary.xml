@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_background">
 
 
     <FrameLayout
@@ -17,17 +18,17 @@
         >
         <ImageView
             android:id="@+id/ddIvbackground"
-            android:layout_width="340dp"
-            android:layout_height="340dp"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
             android:src="@drawable/colorback"
-            android:background="#ffffff"/>
-
+            android:layout_gravity="center"
+            />
         <ImageView
             android:id="@+id/ddIvfront"
-            android:layout_width="340dp"
-            android:layout_height="340dp"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
             android:src="@drawable/colorfront"
-            android:background="#ffffff"/>
+            android:layout_gravity="center"/>
 
         <ImageView
             android:id="@+id/ddIvicon"
@@ -49,52 +50,52 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LinearDraw">
 
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="50dp"
+            android:layout_marginEnd="20dp"
             android:text="행복지수"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintBottom_toBottomOf="@+id/ddEdHl"
+            app:layout_constraintEnd_toStartOf="@+id/ddEdHl"
+            app:layout_constraintTop_toTopOf="@+id/ddEdHl" />
 
         <EditText
             android:id="@+id/ddEdHl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:ems="5"
             android:gravity="center"
             android:hint="( 1 ~ 100 )"
             android:inputType="phone|number"
             android:maxLength="3"
-            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/ddBtnDice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginStart="20dp"
             android:adjustViewBounds="true"
             android:maxWidth="45dp"
             android:maxHeight="45dp"
             android:padding="0sp"
             android:scaleType="centerCrop"
             android:src="@drawable/dice"
+            app:layout_constraintBottom_toBottomOf="@+id/ddEdHl"
             app:layout_constraintStart_toEndOf="@+id/ddEdHl"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/ddEdHl" />
 
         <EditText
             android:id="@+id/ddEdDiary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:ems="10"
             android:hint="오늘 기분을 써보세요"
             android:inputType="textPersonName"
@@ -123,7 +124,6 @@
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:background="#ffffff"
             android:gravity="center"
             android:maxWidth="205dp"
             android:maxHeight="85dp"
@@ -138,7 +138,6 @@
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:background="#ffffff"
             android:gravity="center"
             android:maxWidth="85dp"
             android:maxHeight="85dp"

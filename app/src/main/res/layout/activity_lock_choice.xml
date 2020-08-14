@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_main"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="20dp">
 
 
     <ImageView
@@ -20,6 +21,7 @@
         android:id="@+id/btnLock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_background"
         android:layout_marginTop="20dp"
         android:text="2차 비밀번호 설정"
 
@@ -29,12 +31,16 @@
         android:id="@+id/btnDisable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_background"
         android:text="2차 비밀번호 설정 삭제" />
 
     <Button
         android:id="@+id/btnPassChange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_background"
         android:text="2차 비밀번호 변경" />
     <!-- <Button
         android:id="@+id/btnUnlock"

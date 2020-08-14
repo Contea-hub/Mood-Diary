@@ -4,16 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_main">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/monthConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="36dp"
+        android:paddingTop="64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -21,11 +24,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
-            android:paddingTop="32dp"
-            android:text="n년"
+            android:text="2020년"
             android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tvOutputMonth" />
+            app:layout_constraintBottom_toTopOf="@id/tvOutputMonth"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/monthPreviousButton"
@@ -58,7 +62,7 @@
             android:id="@+id/tvOutputMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="n월"
+            android:text="08월"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@id/monthTv" />
@@ -69,8 +73,12 @@
         android:id="@+id/monthGrid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:columnCount="5"
         android:padding="64px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/monthConstraintLayout" />
 
 

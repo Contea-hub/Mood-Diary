@@ -9,23 +9,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity"
-            android:theme = "@style/SplashTheme">
+        <activity android:name=".thruActivity"></activity>
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserInfoActivity" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".LoginActivity">
-
-        </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LockActivity" />
-        <activity android:name=".AppPasswordActivity" />
-        <activity android:name=".ChangeActivity" />
+        <activity
+            android:name=".UserInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="screenSize|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LockActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AppPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChangeActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

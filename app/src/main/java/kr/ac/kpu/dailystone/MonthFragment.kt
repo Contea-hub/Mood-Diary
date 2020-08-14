@@ -28,13 +28,13 @@ class MonthFragment : Fragment() {
     private val current: LocalDate = LocalDate.now()
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd")
     private val formatted: String = current.format(formatter)
-    var date = formatted.substring(2,8)
+    var date = formatted.substring(2, 8)
     private val formatterYear: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy")
     private var yearformatted: String = current.format(formatterYear)
-    var year = yearformatted.substring(2,4)
-    private var formatterMonth : DateTimeFormatter = DateTimeFormatter.ofPattern("MM")
+    var year = yearformatted.substring(2, 4)
+    private var formatterMonth: DateTimeFormatter = DateTimeFormatter.ofPattern("MM")
     private var monthformatted: String = current.format(formatterMonth)
-    private val formatterDay : DateTimeFormatter = DateTimeFormatter.ofPattern("dd")
+    private val formatterDay: DateTimeFormatter = DateTimeFormatter.ofPattern("dd")
     private val dayformatted: String = current.format(formatterDay)
 
 
@@ -75,40 +75,44 @@ class MonthFragment : Fragment() {
                 rootView.monthGrid.removeAllViews()
                 for (i in 1..31) {
                     Log.d("HAN", "check $i : ${snapshot.child("$i").hasChildren()}")
-                    if(i<10){
+                    if (i < 10) {
                         if (snapshot.child("0$i").hasChildren()) {
                             val gv: GridLayout = rootView.findViewById(R.id.monthGrid)
                             var width = Resources.getSystem().displayMetrics.widthPixels
                             var devicewidth = (width - 128) / 5
                             val iv: ImageView = ImageView(context)
                             val monthCount = snapshot.child("0$i").childrenCount.toInt()
-                            for(j in 1 until monthCount + 1){
+                            for (j in 1 until monthCount + 1) {
                                 var sum = 0
                                 sum += snapshot.child("0$i").child("$j")
                                     .child("level").value.toString().toInt()
-                                var meanSum : Int = (sum / monthCount)
-                                if(meanSum in 1..20){
+                                var meanSum: Int = (sum / monthCount)
+                                if (meanSum in 1..20) {
                                     iv.setImageResource(R.drawable.level_sad)
-                                }else if(meanSum in 21..50){
+                                } else if (meanSum in 21..50) {
                                     iv.setImageResource(R.drawable.level_normal)
-                                }else if(meanSum in 51..100){
+                                } else if (meanSum in 51..100) {
                                     iv.setImageResource(R.drawable.level_happy)
                                 }
 
                             }
-                            //iv.setImageResource(R.drawable.happy_level1)
                             val params = LinearLayout.LayoutParams(devicewidth, devicewidth)
                             iv.layoutParams = params
                             iv.setOnClickListener {
-                                val mDialog
-                                        = MonthDetailFragment.newInstance(yearformatted, monthformatted,
+                                val mDialog = MonthDetailFragment.newInstance(
+                                    yearformatted, monthformatted,
                                     "0$i"
                                 )
-                                fragmentManager?.let { it1 -> mDialog.show(it1,MonthDetailFragment.TAG) }
+                                fragmentManager?.let { it1 ->
+                                    mDialog.show(
+                                        it1,
+                                        MonthDetailFragment.TAG
+                                    )
+                                }
                             }
                             gv.addView(iv)
                         }
-                    }else {
+                    } else {
                         if (snapshot.child("$i").hasChildren()) {
                             val gv: GridLayout = rootView.findViewById(R.id.monthGrid)
                             var width = Resources.getSystem().displayMetrics.widthPixels
@@ -116,7 +120,7 @@ class MonthFragment : Fragment() {
                             var sum = 0
                             val iv: ImageView = ImageView(context)
                             val monthCount = snapshot.child("$i").childrenCount.toInt()
-                            for(j in 1 until monthCount + 1) {
+                            for (j in 1 until monthCount + 1) {
 
                                 sum += snapshot.child("$i").child("$j")
                                     .child("level").value.toString().toInt()
@@ -132,13 +136,21 @@ class MonthFragment : Fragment() {
                                 Log.d("HAN", "meansum : $meanSum")
 
                             }
-                                //iv.setImageResource(R.drawable.happy_level1)
+
                             val params = LinearLayout.LayoutParams(devicewidth, devicewidth)
                             iv.layoutParams = params
                             iv.setOnClickListener {
-                                val mDialog
-                                        = MonthDetailFragment.newInstance(yearformatted, monthformatted, "$i")
-                                fragmentManager?.let { it1 -> mDialog.show(it1,MonthDetailFragment.TAG) }
+                                val mDialog = MonthDetailFragment.newInstance(
+                                    yearformatted,
+                                    monthformatted,
+                                    "$i"
+                                )
+                                fragmentManager?.let { it1 ->
+                                    mDialog.show(
+                                        it1,
+                                        MonthDetailFragment.TAG
+                                    )
+                                }
 
                             }
                             gv.addView(iv)
@@ -146,42 +158,43 @@ class MonthFragment : Fragment() {
                     }
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
         }
-        database.child(uid!!).child("diary").child(yearformatted.substring(2,4)).child(monthformatted)
+        database.child(uid!!).child("diary").child(yearformatted.substring(2, 4))
+            .child(monthformatted)
             .addValueEventListener(postListener)
         return rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        //val monthPreviousBtn : ImageButton = requireView().findViewById<ImageButton>(R.id.monthPreviousButton) as ImageButton
         monthPreviousButton.setOnClickListener {
-            if(monthformatted == "01"){
-                monthformatted ="12"
+            if (monthformatted == "01") {
+                monthformatted = "12"
                 yearformatted = (yearformatted.toInt() - 1).toString()
-            }else if(monthformatted.toInt() in 1..10) {
+            } else if (monthformatted.toInt() in 1..10) {
                 monthformatted = "0" + (monthformatted.toInt() - 1).toString()
-            }else{
+            } else {
                 monthformatted = (monthformatted.toInt() - 1).toString()
             }
-            var ft : FragmentTransaction? = fragmentManager?.beginTransaction()
+            var ft: FragmentTransaction? = fragmentManager?.beginTransaction()
             ft?.detach(this)?.attach(this)?.commit()
             Log.d("HAN", "month : $monthformatted")
         }
-        //val monthNextBtn : ImageButton = requireView().findViewById<ImageButton>(R.id.monthNextButton) as ImageButton
+
         monthNextButton.setOnClickListener {
-            if(monthformatted == "12"){
+            if (monthformatted == "12") {
                 monthformatted = "01"
                 yearformatted = (yearformatted.toInt() + 1).toString()
-            }else if(monthformatted.toInt() in 1..8) {
+            } else if (monthformatted.toInt() in 1..8) {
                 monthformatted = "0" + (monthformatted.toInt() + 1).toString()
-            }else{
+            } else {
                 monthformatted = (monthformatted.toInt() + 1).toString()
             }
-            var ft : FragmentTransaction? = fragmentManager?.beginTransaction()
+            var ft: FragmentTransaction? = fragmentManager?.beginTransaction()
             ft?.detach(this)?.attach(this)?.commit()
             Log.d("HAN", "month : $monthformatted")
         }
