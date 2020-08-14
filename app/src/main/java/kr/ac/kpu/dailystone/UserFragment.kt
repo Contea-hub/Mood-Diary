@@ -3,6 +3,7 @@ package kr.ac.kpu.dailystone
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -87,7 +89,7 @@ class UserFragment : Fragment() {
         }
         btnGoalSet.setOnClickListener {
             val dlgView = layoutInflater.inflate(R.layout.dialog_goal_setting , null)
-            val dlgBuilder = AlertDialog.Builder(context)
+            val dlgBuilder = AlertDialog.Builder(requireContext(), R.style.AlertDialog)
             val currentGoal = dlgView.findViewById<TextView>(R.id.tvCurrentGoal)
             val settingGoal = dlgView.findViewById<EditText>(R.id.etSettingGoal)
             val uid = mAuth?.uid
@@ -106,7 +108,6 @@ class UserFragment : Fragment() {
             }
             database.child(uid!!).child("goal").child(year).child(month).addValueEventListener(postListener)
 
-            dlgBuilder.setTitle("월별 목표치 설정")
             dlgBuilder.setView(dlgView)
             dlgBuilder.setPositiveButton("확인") {dialogInterface, i ->
                 if(settingGoal.text.toString() == ""){
@@ -119,7 +120,7 @@ class UserFragment : Fragment() {
                         .child(year).child(month).child("goal").setValue(settingGoal.text.toString())
                 }
 
-            }.setNegativeButton("취소"){dialogInterface, i ->
+            }.setNegativeButton("취소") { dialogInterface, i ->
 
             }.show()
         }

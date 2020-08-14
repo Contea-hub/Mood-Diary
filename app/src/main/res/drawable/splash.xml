@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:drawable="@drawable/colorback"/>
+        android:drawable="@drawable/background_main"/>
+    <item
+        android:drawable="@drawable/title"
+        android:gravity="center"
+        android:width="300dp"
+        android:top="150dp">
+
+    </item>
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/dice"/>
+            android:src="@drawable/title_icon"/>
     </item>
 </layer-list>

@@ -20,6 +20,9 @@
 
 
     </style>
+    <style name = "AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
 
     <!--<style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

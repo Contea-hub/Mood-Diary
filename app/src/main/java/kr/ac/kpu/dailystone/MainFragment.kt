@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -279,6 +280,7 @@ class MainFragment : Fragment() {
                 if (snapshot.child("goal").child(goalYear).child(goalMonth)
                         .child("goal").value == null
                 ) {
+                    Maxgoal=0
                     view?.mainPbMgoal?.visibility = View.INVISIBLE
                     view?.mainPbMgoal2?.visibility = View.INVISIBLE
                 } else {
@@ -412,9 +414,9 @@ class MainFragment : Fragment() {
         mainTvDate.text ="${monthformatted}월 ${dayformatted}일"
         readCount()
         goalCount(date)
+        setGoal()
         var ft : FragmentTransaction? = fragmentManager?.beginTransaction()
         ft?.detach(this)?.attach(this)?.commit()
-        //dailyGoal(date)
     }
 
     private fun nextDate() {//다음 날짜 조회
@@ -428,8 +430,36 @@ class MainFragment : Fragment() {
         mainTvDate.text = "${monthformatted}월 ${dayformatted}일"
         readCount()
         goalCount(date)
+        setGoal()
         var ft : FragmentTransaction? = fragmentManager?.beginTransaction()
         ft?.detach(this)?.attach(this)?.commit()
         //dailyGoal(date)
+
+    }
+
+    private fun setGoal() {
+        // Initialize Firebase Auth
+        mAuth = Firebase.auth
+        if (mAuth!!.currentUser != null) {
+            val uid = mAuth!!.uid
+            db = Firebase.database.reference
+
+            val postListener = object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.hasChildren()) {
+                    } else {
+                        db.child(uid!!).child("goal").child(year).child(monthformatted).child("goal")
+                            .setValue("15")
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            }
+            db.child(uid!!).child("goal").child(year).child(monthformatted)
+                .addListenerForSingleValueEvent(postListener)
+
+        }
     }
 }
