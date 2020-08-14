@@ -26,12 +26,12 @@ class LockActivity : AppCompatActivity() {
         //2차 비밀번호 설정 눌렀을 경우
         btnLock.setOnClickListener {
 
-                val intent = Intent(this, AppPasswordActivity::class.java).apply {
-                    putExtra(AppLockConst.type, AppLockConst.ENABLE_PASSLOCK)
+            val intent = Intent(this, AppPasswordActivity::class.java).apply {
+                putExtra(AppLockConst.type, AppLockConst.ENABLE_PASSLOCK)
 
-                }
-                startActivityForResult(intent, AppLockConst.ENABLE_PASSLOCK)
-                finish()
+            }
+            startActivityForResult(intent, AppLockConst.ENABLE_PASSLOCK)
+            finish()
             Log.d("Min", "success: start")
 
         }
@@ -39,7 +39,7 @@ class LockActivity : AppCompatActivity() {
         btnDisable.setOnClickListener {
             val intent = Intent(this, AppPasswordActivity::class.java).apply {
                 putExtra(AppLockConst.type, AppLockConst.DISABLE_PASSLOCK)
-        }
+            }
             startActivityForResult(intent, AppLockConst.DISABLE_PASSLOCK)
 
         }

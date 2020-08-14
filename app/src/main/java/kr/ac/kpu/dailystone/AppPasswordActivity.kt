@@ -183,16 +183,16 @@ class AppPasswordActivity : AppCompatActivity() {
             }
             DISABLE_PASSLOCK -> { // 2차비밀번호 삭제
 
-                    if (dbPassword != inputedPassword()) {
-                        etInputInfo.text = "비밀번호가 틀립니다"
-                        onClear()
-                    } else {
-                        db.child(user!!.uid).child("password").child("password").setValue("")
-                        db.child(user!!.uid).child("password").child("lock").setValue(0)
-                        setResult(Activity.RESULT_OK,intent)
-                        finish()
-                    }
+                if (dbPassword != inputedPassword()) {
+                    etInputInfo.text = "비밀번호가 틀립니다"
+                    onClear()
+                } else {
+                    db.child(user!!.uid).child("password").child("password").setValue("")
+                    db.child(user!!.uid).child("password").child("lock").setValue(0)
+                    setResult(Activity.RESULT_OK,intent)
+                    finish()
                 }
+            }
             UNLOCK_PASSWORD ->
                 if ( inputedPassword() == dbPassword) {
                     setResult(Activity.RESULT_OK)
@@ -209,13 +209,13 @@ class AppPasswordActivity : AppCompatActivity() {
                     etInputInfo.text = "새로운 비밀번호 입력"
                     onClear()
                 } else if (changePwdUnlock) {
-                        dbPassword = "${etPasscode1.text}${etPasscode2.text}${etPasscode3.text}${etPasscode4.text}"
-                        Log.d("kkk","Change dbPassword: $dbPassword")
-                        db.child(user!!.uid).child("password").child("password")
-                            .setValue(dbPassword)
-                       // AppLock(this).setPassLock(inputedPassword())
-                        setResult(Activity.RESULT_OK)
-                        finish()
+                    dbPassword = "${etPasscode1.text}${etPasscode2.text}${etPasscode3.text}${etPasscode4.text}"
+                    Log.d("kkk","Change dbPassword: $dbPassword")
+                    db.child(user!!.uid).child("password").child("password")
+                        .setValue(dbPassword)
+                    // AppLock(this).setPassLock(inputedPassword())
+                    setResult(Activity.RESULT_OK)
+                    finish()
 
                 } else {
                     etInputInfo.text = "비밀번호가 틀립니다. 다시 입력해주세요"

@@ -220,13 +220,13 @@ class DialogDiaryFragment(context: Context,date:String) : Dialog(context) {
             val hex = "#"+Integer.toHexString(pixel)
             ddIvicon.setColorFilter(Color.rgb(r,g,b))
             Log.d("color","r:$r, g:$g, b:$b")
-            if(r==255 && g==0 && b==0){
+            if(r==229 && g==115 && b==115){
                 diaryColor=1
-            }else if(r==255&&g==192&&b==0){
+            }else if(r==255&&g==241&&b==118){
                 diaryColor=2
-            }else if(r==0&&g==176&&b==80){
+            }else if(r==204&&g==255&&b==144){
                 diaryColor=3
-            }else if(r==0&&g==112&&b==192){
+            }else if(r==92&&g==107&&b==192){
                 diaryColor=4
             }else{
                 diaryColor=0
@@ -461,13 +461,13 @@ class DialogDiaryFragmentModify(context: Context, date:String, val modifyCnt: St
             val hex = "#"+Integer.toHexString(pixel)
             ddIvicon.setColorFilter(Color.rgb(r,g,b))
             Log.d("color","r:$r, g:$g, b:$b")
-            if(r==255 && g==0 && b==0){
+            if(r==229 && g==115 && b==115){
                 diaryColor=1
-            }else if(r==255&&g==192&&b==0){
+            }else if(r==255&&g==241&&b==118){
                 diaryColor=2
-            }else if(r==0&&g==176&&b==80){
+            }else if(r==204&&g==255&&b==144){
                 diaryColor=3
-            }else if(r==0&&g==112&&b==192){
+            }else if(r==92&&g==107&&b==192){
                 diaryColor=4
             }else{
                 diaryColor=0
@@ -485,16 +485,10 @@ class DialogDiaryFragmentModify(context: Context, date:String, val modifyCnt: St
         val postValues: HashMap<String, Any> = HashMap()
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.child("count").child(date).child("count").value == null) {
-                    cnt = 0
-                } else {
-                    cnt = snapshot.child("count").child(date).child("count").value!!
-                }
-
                 val myRefDiary =
                     db.child(user!!.uid).child("diary").child(year).child(monthformatted)
                         .child(dayformatted)
-                        .child((cnt.toString().toInt() + 1).toString())
+                        .child(modifyCnt)
                 postValues["level"] = level
                 postValues["diary"] = diary
                 postValues["emoticon"] = emoticon
@@ -502,8 +496,6 @@ class DialogDiaryFragmentModify(context: Context, date:String, val modifyCnt: St
 
                 myRefDiary.setValue(postValues)
 
-                val myRefCount = db.child(user!!.uid).child("count").child(date).child("count")
-                myRefCount.setValue(cnt.toString().toInt() + 1)
 
             }
 
